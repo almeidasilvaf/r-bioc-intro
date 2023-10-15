@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Introduction to R/Bioconductor - 2&nbsp; Data processing with the tidyverse</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../chapters/03_visualization.html" rel="next">
+<link href="../chapters/01_intro_to_R.html" rel="prev">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../chapters/02_tidyverse.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data processing with the **`tidyverse`**</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Introduction to R/Bioconductor</a> 
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/00_setup.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Setup</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/01_intro_to_R.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Getting started with R data classes</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/02_tidyverse.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data processing with the <strong><code>tidyverse</code></strong></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/03_visualization.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Visualizing data with <strong><code>ggplot2</code></strong></span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../chapters/04_bioc.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Analyzing biological data with the Bioconductor ecosystem</span></span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#goals-of-this-lesson" id="toc-goals-of-this-lesson" class="nav-link active" data-scroll-target="#goals-of-this-lesson"><span class="header-section-number">2.1</span> Goals of this lesson</a></li>
+  <li><a href="#the-readr-package-reading-files" id="toc-the-readr-package-reading-files" class="nav-link" data-scroll-target="#the-readr-package-reading-files"><span class="header-section-number">2.2</span> The <strong><code>readr</code></strong> package: reading files</a></li>
+  <li><a href="#the-dplyr-package-filtering-extending-and-summarizing-data" id="toc-the-dplyr-package-filtering-extending-and-summarizing-data" class="nav-link" data-scroll-target="#the-dplyr-package-filtering-extending-and-summarizing-data"><span class="header-section-number">2.3</span> The <strong><code>dplyr</code></strong> package: filtering, extending, and summarizing data</a>
+  <ul class="collapse">
+  <li><a href="#selecting-columns-and-filtering-rows" id="toc-selecting-columns-and-filtering-rows" class="nav-link" data-scroll-target="#selecting-columns-and-filtering-rows"><span class="header-section-number">2.3.1</span> Selecting columns and filtering rows</a></li>
+  <li><a href="#adding-new-columns" id="toc-adding-new-columns" class="nav-link" data-scroll-target="#adding-new-columns"><span class="header-section-number">2.3.2</span> Adding new columns</a></li>
+  <li><a href="#summarizing-grouped-data" id="toc-summarizing-grouped-data" class="nav-link" data-scroll-target="#summarizing-grouped-data"><span class="header-section-number">2.3.3</span> Summarizing grouped data</a></li>
+  <li><a href="#counting-observations-per-group" id="toc-counting-observations-per-group" class="nav-link" data-scroll-target="#counting-observations-per-group"><span class="header-section-number">2.3.4</span> Counting observations per group</a></li>
+  <li><a href="#joining-tables" id="toc-joining-tables" class="nav-link" data-scroll-target="#joining-tables"><span class="header-section-number">2.3.5</span> Joining tables</a></li>
+  </ul></li>
+  <li><a href="#the-tidyr-package-from-long-to-wide-and-vice-versa" id="toc-the-tidyr-package-from-long-to-wide-and-vice-versa" class="nav-link" data-scroll-target="#the-tidyr-package-from-long-to-wide-and-vice-versa"><span class="header-section-number">2.4</span> The <strong><code>tidyr</code></strong> package: from long to wide, and vice versa</a></li>
+  <li><a href="#exporting-data" id="toc-exporting-data" class="nav-link" data-scroll-target="#exporting-data"><span class="header-section-number">2.5</span> Exporting data</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data processing with the <strong><code>tidyverse</code></strong></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<p>The <strong><code>tidyverse</code></strong> package is an “umbrella-package” that installs several useful packages for data analysis which work well together, such as <strong><code>tidyr</code></strong>, <strong><code>dplyr</code></strong>, <strong><code>ggplot2</code></strong>, <strong><code>tibble</code></strong>, etc. These packages help us to work and interact with the data. They allow us to do many things with your data, such as subsetting, transforming, visualising, etc.</p>
+<p>Let’s start by loading the tidyverse package:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="goals-of-this-lesson" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="goals-of-this-lesson"><span class="header-section-number">2.1</span> Goals of this lesson</h2>
+<p>At the end of this lesson, you will be able to:</p>
+<ul>
+<li>read tabular data from .csv/.tsv/.txt/ files</li>
+<li>filter your data set to select particular rows and columns</li>
+<li>add columns</li>
+<li>summarize data</li>
+<li>combine different data frames</li>
+<li>reshape data from long to wide, and back</li>
+</ul>
+</section>
+<section id="the-readr-package-reading-files" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="the-readr-package-reading-files"><span class="header-section-number">2.2</span> The <strong><code>readr</code></strong> package: reading files</h2>
+<p>The data we will use in this lesson are in <code>data/rnaseq.csv</code> in <a href="https://github.com/almeidasilvaf/r-bioc-intro">the GitHub repo associated with this course</a>. This is a <em>comma-separated file</em>, which means it contains a table in which columns are separated by commas. To read .csv files, we will use the function <code>read_csv()</code> from the <strong><code>readr</code></strong> package.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read csv file</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>rna <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"rnaseq.csv"</span>))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect the data</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(rna)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 19
+  gene    sample   expression organism   age sex   infection strain  time tissue
+  &lt;chr&gt;   &lt;chr&gt;         &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt; 
+1 Asl     GSM2545…       1170 Mus mus…     8 Fema… Influenz… C57BL…     8 Cereb…
+2 Apod    GSM2545…      36194 Mus mus…     8 Fema… Influenz… C57BL…     8 Cereb…
+3 Cyp2d22 GSM2545…       4060 Mus mus…     8 Fema… Influenz… C57BL…     8 Cereb…
+4 Klk6    GSM2545…        287 Mus mus…     8 Fema… Influenz… C57BL…     8 Cereb…
+5 Fcrls   GSM2545…         85 Mus mus…     8 Fema… Influenz… C57BL…     8 Cereb…
+6 Slc2a4  GSM2545…        782 Mus mus…     8 Fema… Influenz… C57BL…     8 Cereb…
+# ℹ 9 more variables: mouse &lt;dbl&gt;, ENTREZID &lt;dbl&gt;, product &lt;chr&gt;,
+#   ensembl_gene_id &lt;chr&gt;, external_synonym &lt;chr&gt;, chromosome_name &lt;chr&gt;,
+#   gene_biotype &lt;chr&gt;, phenotype_description &lt;chr&gt;,
+#   hsapiens_homolog_associated_gene_name &lt;chr&gt;</code></pre>
+</div>
+</div>
+<p>Notice that the class of the data is now referred to as a “tibble”.</p>
+<p>Tibbles tweak some of the behaviors of the data frame objects we introduced in the previously. The data structure is very similar to a data frame. For our purposes the only differences are that:</p>
+<ol type="1">
+<li><p>It displays the data type of each column under its name. Note that &lt;<code>dbl</code>&gt; is a data type defined to hold numeric values with decimal points.</p></li>
+<li><p>It only prints the first few rows of data and only as many columns as fit on one screen.</p></li>
+</ol>
+</section>
+<section id="the-dplyr-package-filtering-extending-and-summarizing-data" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="the-dplyr-package-filtering-extending-and-summarizing-data"><span class="header-section-number">2.3</span> The <strong><code>dplyr</code></strong> package: filtering, extending, and summarizing data</h2>
+<p>The <strong><code>dplyr</code></strong> is one of the most main packages of the tidyverse, and it can be used to perform all sorts of day-to-day data processing. Here, we are going to learn some of the most common <strong><code>dplyr</code></strong> functions:</p>
+<ul>
+<li><code>select()</code>: subset columns</li>
+<li><code>filter()</code>: subset rows on conditions</li>
+<li><code>mutate()</code>: create new columns by using information from other columns</li>
+<li><code>group_by()</code> and <code>summarise()</code>: create summary statistics on grouped data</li>
+<li><code>arrange()</code>: sort results</li>
+<li><code>count()</code>: count discrete values</li>
+</ul>
+<section id="selecting-columns-and-filtering-rows" class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="selecting-columns-and-filtering-rows"><span class="header-section-number">2.3.1</span> Selecting columns and filtering rows</h3>
+<p>To select columns of a data frame, use <code>select()</code>. The first argument to this function is the data frame (<code>rna</code>), and the subsequent arguments are the columns to keep.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(rna, gene, sample, tissue, expression)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 32,428 × 4
+   gene    sample     tissue     expression
+   &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;
+ 1 Asl     GSM2545336 Cerebellum       1170
+ 2 Apod    GSM2545336 Cerebellum      36194
+ 3 Cyp2d22 GSM2545336 Cerebellum       4060
+ 4 Klk6    GSM2545336 Cerebellum        287
+ 5 Fcrls   GSM2545336 Cerebellum         85
+ 6 Slc2a4  GSM2545336 Cerebellum        782
+ 7 Exd2    GSM2545336 Cerebellum       1619
+ 8 Gjc2    GSM2545336 Cerebellum        288
+ 9 Plp1    GSM2545336 Cerebellum      43217
+10 Gnb4    GSM2545336 Cerebellum       1071
+# ℹ 32,418 more rows</code></pre>
+</div>
+</div>
+<p>To select all columns <em>except</em> certain ones, put a “-” in front of the variable to exclude it. For example, to select all columns but <code>tissue</code> and <code>organism</code>, you’d use:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">select</span>(rna, <span class="sc">-</span>tissue, <span class="sc">-</span>organism)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 32,428 × 17
+   gene    sample   expression   age sex   infection strain  time mouse ENTREZID
+   &lt;chr&gt;   &lt;chr&gt;         &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+ 1 Asl     GSM2545…       1170     8 Fema… Influenz… C57BL…     8    14   109900
+ 2 Apod    GSM2545…      36194     8 Fema… Influenz… C57BL…     8    14    11815
+ 3 Cyp2d22 GSM2545…       4060     8 Fema… Influenz… C57BL…     8    14    56448
+ 4 Klk6    GSM2545…        287     8 Fema… Influenz… C57BL…     8    14    19144
+ 5 Fcrls   GSM2545…         85     8 Fema… Influenz… C57BL…     8    14    80891
+ 6 Slc2a4  GSM2545…        782     8 Fema… Influenz… C57BL…     8    14    20528
+ 7 Exd2    GSM2545…       1619     8 Fema… Influenz… C57BL…     8    14    97827
+ 8 Gjc2    GSM2545…        288     8 Fema… Influenz… C57BL…     8    14   118454
+ 9 Plp1    GSM2545…      43217     8 Fema… Influenz… C57BL…     8    14    18823
+10 Gnb4    GSM2545…       1071     8 Fema… Influenz… C57BL…     8    14    14696
+# ℹ 32,418 more rows
+# ℹ 7 more variables: product &lt;chr&gt;, ensembl_gene_id &lt;chr&gt;,
+#   external_synonym &lt;chr&gt;, chromosome_name &lt;chr&gt;, gene_biotype &lt;chr&gt;,
+#   phenotype_description &lt;chr&gt;, hsapiens_homolog_associated_gene_name &lt;chr&gt;</code></pre>
+</div>
+</div>
+<p>To choose rows based on specific criteria, use <code>filter()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(rna, sex <span class="sc">==</span> <span class="st">"Male"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 14,740 × 19
+   gene    sample  expression organism   age sex   infection strain  time tissue
+   &lt;chr&gt;   &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt; 
+ 1 Asl     GSM254…        626 Mus mus…     8 Male  Influenz… C57BL…     4 Cereb…
+ 2 Apod    GSM254…      13021 Mus mus…     8 Male  Influenz… C57BL…     4 Cereb…
+ 3 Cyp2d22 GSM254…       2171 Mus mus…     8 Male  Influenz… C57BL…     4 Cereb…
+ 4 Klk6    GSM254…        448 Mus mus…     8 Male  Influenz… C57BL…     4 Cereb…
+ 5 Fcrls   GSM254…        180 Mus mus…     8 Male  Influenz… C57BL…     4 Cereb…
+ 6 Slc2a4  GSM254…        313 Mus mus…     8 Male  Influenz… C57BL…     4 Cereb…
+ 7 Exd2    GSM254…       2366 Mus mus…     8 Male  Influenz… C57BL…     4 Cereb…
+ 8 Gjc2    GSM254…        310 Mus mus…     8 Male  Influenz… C57BL…     4 Cereb…
+ 9 Plp1    GSM254…      53126 Mus mus…     8 Male  Influenz… C57BL…     4 Cereb…
+10 Gnb4    GSM254…       1355 Mus mus…     8 Male  Influenz… C57BL…     4 Cereb…
+# ℹ 14,730 more rows
+# ℹ 9 more variables: mouse &lt;dbl&gt;, ENTREZID &lt;dbl&gt;, product &lt;chr&gt;,
+#   ensembl_gene_id &lt;chr&gt;, external_synonym &lt;chr&gt;, chromosome_name &lt;chr&gt;,
+#   gene_biotype &lt;chr&gt;, phenotype_description &lt;chr&gt;,
+#   hsapiens_homolog_associated_gene_name &lt;chr&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">filter</span>(rna, sex <span class="sc">==</span> <span class="st">"Male"</span> <span class="sc">&amp;</span> infection <span class="sc">==</span> <span class="st">"NonInfected"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4,422 × 19
+   gene    sample  expression organism   age sex   infection strain  time tissue
+   &lt;chr&gt;   &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt; 
+ 1 Asl     GSM254…        535 Mus mus…     8 Male  NonInfec… C57BL…     0 Cereb…
+ 2 Apod    GSM254…      13668 Mus mus…     8 Male  NonInfec… C57BL…     0 Cereb…
+ 3 Cyp2d22 GSM254…       2008 Mus mus…     8 Male  NonInfec… C57BL…     0 Cereb…
+ 4 Klk6    GSM254…       1101 Mus mus…     8 Male  NonInfec… C57BL…     0 Cereb…
+ 5 Fcrls   GSM254…        375 Mus mus…     8 Male  NonInfec… C57BL…     0 Cereb…
+ 6 Slc2a4  GSM254…        249 Mus mus…     8 Male  NonInfec… C57BL…     0 Cereb…
+ 7 Exd2    GSM254…       3126 Mus mus…     8 Male  NonInfec… C57BL…     0 Cereb…
+ 8 Gjc2    GSM254…        791 Mus mus…     8 Male  NonInfec… C57BL…     0 Cereb…
+ 9 Plp1    GSM254…      98658 Mus mus…     8 Male  NonInfec… C57BL…     0 Cereb…
+10 Gnb4    GSM254…       2437 Mus mus…     8 Male  NonInfec… C57BL…     0 Cereb…
+# ℹ 4,412 more rows
+# ℹ 9 more variables: mouse &lt;dbl&gt;, ENTREZID &lt;dbl&gt;, product &lt;chr&gt;,
+#   ensembl_gene_id &lt;chr&gt;, external_synonym &lt;chr&gt;, chromosome_name &lt;chr&gt;,
+#   gene_biotype &lt;chr&gt;, phenotype_description &lt;chr&gt;,
+#   hsapiens_homolog_associated_gene_name &lt;chr&gt;</code></pre>
+</div>
+</div>
+<p>Now, let’s imagine we are interested in the human homologs of the mouse genes analysed in this dataset. This information can be found in the last column of the <code>rna</code> tibble, named <code>hsapiens_homolog_associated_gene_name</code>. To visualise it easily, we will create a new table containing just the 2 columns <code>gene</code> and <code>hsapiens_homolog_associated_gene_name</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>genes <span class="ot">&lt;-</span> <span class="fu">select</span>(rna, gene, hsapiens_homolog_associated_gene_name)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>genes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 32,428 × 2
+   gene    hsapiens_homolog_associated_gene_name
+   &lt;chr&gt;   &lt;chr&gt;                                
+ 1 Asl     ASL                                  
+ 2 Apod    APOD                                 
+ 3 Cyp2d22 CYP2D6                               
+ 4 Klk6    KLK6                                 
+ 5 Fcrls   FCRL2                                
+ 6 Slc2a4  SLC2A4                               
+ 7 Exd2    EXD2                                 
+ 8 Gjc2    GJC2                                 
+ 9 Plp1    PLP1                                 
+10 Gnb4    GNB4                                 
+# ℹ 32,418 more rows</code></pre>
+</div>
+</div>
+<p>A very nice thing about tidyverse verbs (functions) is that they can be executed one after the other by using the <strong>pipe</strong> operator (<code>|&gt;</code> or <code>%&gt;%</code>). In practice, that means you don’t have to create intermediate objects for complicated subsetting operations that involve multiple steps. The <strong>pipe</strong> operator is often read as <em>and then</em> in the sense that you apply a function A <em>and then</em> you pass the output to function B, <em>and then</em> you pass the output to function C, and so on and so forth. For example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-8"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-8-1" class="code-annotation-target"><a href="#annotated-cell-8-1" aria-hidden="true" tabindex="-1"></a>rna <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-8-2" class="code-annotation-target"><a href="#annotated-cell-8-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(sex <span class="sc">==</span> <span class="st">"Male"</span>) <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-8-3" class="code-annotation-target"><a href="#annotated-cell-8-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(gene, sample, tissue, expression)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-8" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="1" data-code-annotation="1" data-code-cell="annotated-cell-8">Take the object <code>rna</code>, <em>and then</em></span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-lines="2" data-code-annotation="2" data-code-cell="annotated-cell-8">filter it to keep only rows that have “Male” in the column <code>sex</code>, <em>and then</em></span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-lines="3" data-code-annotation="3" data-code-cell="annotated-cell-8">select the columns <code>gene</code>, <code>sample</code>, <code>tissue</code>, <code>expression</code></span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 14,740 × 4
+   gene    sample     tissue     expression
+   &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt;           &lt;dbl&gt;
+ 1 Asl     GSM2545340 Cerebellum        626
+ 2 Apod    GSM2545340 Cerebellum      13021
+ 3 Cyp2d22 GSM2545340 Cerebellum       2171
+ 4 Klk6    GSM2545340 Cerebellum        448
+ 5 Fcrls   GSM2545340 Cerebellum        180
+ 6 Slc2a4  GSM2545340 Cerebellum        313
+ 7 Exd2    GSM2545340 Cerebellum       2366
+ 8 Gjc2    GSM2545340 Cerebellum        310
+ 9 Plp1    GSM2545340 Cerebellum      53126
+10 Gnb4    GSM2545340 Cerebellum       1355
+# ℹ 14,730 more rows</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Practice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li>Using pipes, subset the <code>rna</code> tibble to keep observations that match the following criteria:</li>
+</ol>
+<ul>
+<li><p>Female mice</p></li>
+<li><p>Time point 0</p></li>
+<li><p>Expression higher than 50000</p>
+<p>Then, select the columns <code>gene</code>, <code>sample</code>, <code>time</code>, <code>expression</code>, and <code>age</code>.</p></li>
+</ul>
+<ol start="2" type="1">
+<li><p>Filter <code>rna</code> to keep observations for infected samples, then count the number of rows. Hint: use the <code>unique()</code> function to see all the unique observations in a column, and the <code>nrow()</code> function the get the number of rows in a data frame/tibble.</p></li>
+<li><p>Do the same as above, but now keep only non-infected samples.</p></li>
+</ol>
+<div class="callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Show me the solutions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Q1</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>rna <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>      sex <span class="sc">==</span> <span class="st">"Female"</span>,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>      time <span class="sc">==</span> <span class="dv">0</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>      expression <span class="sc">&gt;</span> <span class="dv">50000</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(gene, sample, time, expression, age)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 5
+  gene   sample      time expression   age
+  &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt;      &lt;dbl&gt; &lt;dbl&gt;
+1 Plp1   GSM2545337     0     101241     8
+2 Atp1b1 GSM2545337     0      53260     8
+3 Plp1   GSM2545338     0      96534     8
+4 Atp1b1 GSM2545338     0      50614     8
+5 Plp1   GSM2545348     0     102790     8
+6 Atp1b1 GSM2545348     0      59544     8
+7 Plp1   GSM2545353     0      71237     8
+8 Glul   GSM2545353     0      52451     8
+9 Atp1b1 GSM2545353     0      61451     8</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Q2</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>rna <span class="sc">|&gt;</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(infection <span class="sc">==</span> <span class="st">"InfluenzaA"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 22110</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Q3</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>rna <span class="sc">|&gt;</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(infection <span class="sc">==</span> <span class="st">"NonInfected"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">nrow</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 10318</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="adding-new-columns" class="level3" data-number="2.3.2">
+<h3 data-number="2.3.2" class="anchored" data-anchor-id="adding-new-columns"><span class="header-section-number">2.3.2</span> Adding new columns</h3>
+<p>Frequently you’ll want to create new columns based on the values of existing columns, for example to do unit conversions, or to find the ratio of values in two columns. For this, we’ll use <code>mutate()</code>.</p>
+<p>For example, the column <code>time</code> contains the time in days. Let’s create a new column named <code>time_hours</code> that contains the time in hours.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>rna <span class="sc">|&gt;</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">time_hours =</span> time <span class="sc">*</span> <span class="dv">24</span>) <span class="sc">|&gt;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(time, time_hours)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 32,428 × 2
+    time time_hours
+   &lt;dbl&gt;      &lt;dbl&gt;
+ 1     8        192
+ 2     8        192
+ 3     8        192
+ 4     8        192
+ 5     8        192
+ 6     8        192
+ 7     8        192
+ 8     8        192
+ 9     8        192
+10     8        192
+# ℹ 32,418 more rows</code></pre>
+</div>
+</div>
+<p>You can also create a second new column based on the first new column within the same call of <code>mutate()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>rna <span class="sc">|&gt;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>        <span class="at">time_hours =</span> time <span class="sc">*</span> <span class="dv">24</span>,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">time_minutes =</span> time_hours <span class="sc">*</span> <span class="dv">60</span></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(time, time_hours, time_minutes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 32,428 × 3
+    time time_hours time_minutes
+   &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;
+ 1     8        192        11520
+ 2     8        192        11520
+ 3     8        192        11520
+ 4     8        192        11520
+ 5     8        192        11520
+ 6     8        192        11520
+ 7     8        192        11520
+ 8     8        192        11520
+ 9     8        192        11520
+10     8        192        11520
+# ℹ 32,418 more rows</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Practice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Create a new data frame from the <code>rna</code> data that meets the following criteria: contains only the <code>gene</code>, <code>chromosome_name</code>, <code>phenotype_description</code>, <code>sample</code>, and <code>expression</code> columns. The expression values should be log-transformed. This data frame must only contain genes located on sex chromosomes, associated with a <code>phenotype_description</code>, and with a log expression higher than 5.</p>
+<p><strong>Hint</strong>: think about how the commands should be ordered to produce this data frame!</p>
+<div class="callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Show me the solutions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>rna <span class="sc">|&gt;</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">expression =</span> <span class="fu">log</span>(expression)) <span class="sc">|&gt;</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(gene, chromosome_name, phenotype_description, sample, expression) <span class="sc">|&gt;</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(chromosome_name <span class="sc">==</span> <span class="st">"X"</span> <span class="sc">|</span> chromosome_name <span class="sc">==</span> <span class="st">"Y"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(phenotype_description)) <span class="sc">|&gt;</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(expression <span class="sc">&gt;</span> <span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 649 × 5
+   gene   chromosome_name phenotype_description                sample expression
+   &lt;chr&gt;  &lt;chr&gt;           &lt;chr&gt;                                &lt;chr&gt;       &lt;dbl&gt;
+ 1 Plp1   X               abnormal CNS glial cell morphology   GSM25…      10.7 
+ 2 Slc7a3 X               decreased body length                GSM25…       5.46
+ 3 Plxnb3 X               abnormal coat appearance             GSM25…       6.58
+ 4 Rbm3   X               abnormal liver morphology            GSM25…       9.32
+ 5 Cfp    X               abnormal cardiovascular system phys… GSM25…       6.18
+ 6 Ebp    X               abnormal embryonic erythrocyte morp… GSM25…       6.68
+ 7 Cd99l2 X               abnormal cellular extravasation      GSM25…       8.04
+ 8 Piga   X               abnormal brain development           GSM25…       6.06
+ 9 Pim2   X               decreased T cell proliferation       GSM25…       7.11
+10 Itm2a  X               no abnormal phenotype detected       GSM25…       7.48
+# ℹ 639 more rows</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="summarizing-grouped-data" class="level3" data-number="2.3.3">
+<h3 data-number="2.3.3" class="anchored" data-anchor-id="summarizing-grouped-data"><span class="header-section-number">2.3.3</span> Summarizing grouped data</h3>
+<p>Many data analysis tasks can be approached using the <em>split-apply-combine</em> paradigm: split the data into groups, apply some analysis to each group, and then combine the results. <strong><code>dplyr</code></strong> makes this very easy through the use of the <code>group_by()</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>rna <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(gene)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 32,428 × 19
+# Groups:   gene [1,474]
+   gene    sample  expression organism   age sex   infection strain  time tissue
+   &lt;chr&gt;   &lt;chr&gt;        &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt; 
+ 1 Asl     GSM254…       1170 Mus mus…     8 Fema… Influenz… C57BL…     8 Cereb…
+ 2 Apod    GSM254…      36194 Mus mus…     8 Fema… Influenz… C57BL…     8 Cereb…
+ 3 Cyp2d22 GSM254…       4060 Mus mus…     8 Fema… Influenz… C57BL…     8 Cereb…
+ 4 Klk6    GSM254…        287 Mus mus…     8 Fema… Influenz… C57BL…     8 Cereb…
+ 5 Fcrls   GSM254…         85 Mus mus…     8 Fema… Influenz… C57BL…     8 Cereb…
+ 6 Slc2a4  GSM254…        782 Mus mus…     8 Fema… Influenz… C57BL…     8 Cereb…
+ 7 Exd2    GSM254…       1619 Mus mus…     8 Fema… Influenz… C57BL…     8 Cereb…
+ 8 Gjc2    GSM254…        288 Mus mus…     8 Fema… Influenz… C57BL…     8 Cereb…
+ 9 Plp1    GSM254…      43217 Mus mus…     8 Fema… Influenz… C57BL…     8 Cereb…
+10 Gnb4    GSM254…       1071 Mus mus…     8 Fema… Influenz… C57BL…     8 Cereb…
+# ℹ 32,418 more rows
+# ℹ 9 more variables: mouse &lt;dbl&gt;, ENTREZID &lt;dbl&gt;, product &lt;chr&gt;,
+#   ensembl_gene_id &lt;chr&gt;, external_synonym &lt;chr&gt;, chromosome_name &lt;chr&gt;,
+#   gene_biotype &lt;chr&gt;, phenotype_description &lt;chr&gt;,
+#   hsapiens_homolog_associated_gene_name &lt;chr&gt;</code></pre>
+</div>
+</div>
+<p>The <code>group_by()</code> function doesn’t perform any data processing, it groups the data into subsets: in the example above, our initial <code>tibble</code> of 32428 observations is split into 1474 groups based on the <code>gene</code> variable.</p>
+<p>Once the data has been grouped, subsequent operations will be applied on each group independently by using the <code>summarise()</code> function. For example, to compute the mean <code>expression</code> by gene, you’d do:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>rna <span class="sc">|&gt;</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(gene) <span class="sc">|&gt;</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">mean_expression =</span> <span class="fu">mean</span>(expression))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,474 × 2
+   gene     mean_expression
+   &lt;chr&gt;              &lt;dbl&gt;
+ 1 AI504432         1053.  
+ 2 AW046200          131.  
+ 3 AW551984          295.  
+ 4 Aamp             4751.  
+ 5 Abca12              4.55
+ 6 Abcc8            2498.  
+ 7 Abhd14a           525.  
+ 8 Abi2             4909.  
+ 9 Abi3bp           1002.  
+10 Abl2             2124.  
+# ℹ 1,464 more rows</code></pre>
+</div>
+</div>
+<p>We could also calculate the mean expression levels of all genes in each sample:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>rna <span class="sc">|&gt;</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sample) <span class="sc">|&gt;</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_expression =</span> <span class="fu">mean</span>(expression))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 22 × 2
+   sample     mean_expression
+   &lt;chr&gt;                &lt;dbl&gt;
+ 1 GSM2545336           2062.
+ 2 GSM2545337           1766.
+ 3 GSM2545338           1668.
+ 4 GSM2545339           1696.
+ 5 GSM2545340           1682.
+ 6 GSM2545341           1638.
+ 7 GSM2545342           1594.
+ 8 GSM2545343           2107.
+ 9 GSM2545344           1712.
+10 GSM2545345           1700.
+# ℹ 12 more rows</code></pre>
+</div>
+</div>
+<p>But we can can also group by multiple columns:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>rna <span class="sc">|&gt;</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(gene, infection, time) <span class="sc">|&gt;</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_expression =</span> <span class="fu">mean</span>(expression))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4,422 × 4
+# Groups:   gene, infection [2,948]
+   gene     infection    time mean_expression
+   &lt;chr&gt;    &lt;chr&gt;       &lt;dbl&gt;           &lt;dbl&gt;
+ 1 AI504432 InfluenzaA      4           1104.
+ 2 AI504432 InfluenzaA      8           1014 
+ 3 AI504432 NonInfected     0           1034.
+ 4 AW046200 InfluenzaA      4            152.
+ 5 AW046200 InfluenzaA      8             81 
+ 6 AW046200 NonInfected     0            155.
+ 7 AW551984 InfluenzaA      4            302.
+ 8 AW551984 InfluenzaA      8            342.
+ 9 AW551984 NonInfected     0            238 
+10 Aamp     InfluenzaA      4           4870 
+# ℹ 4,412 more rows</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Practice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>Calculate the mean and median expression of all genes.</p></li>
+<li><p>Calculate the mean expression level of gene “Dok3” by timepoints.</p></li>
+</ol>
+<div class="callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-5-contents" aria-controls="callout-5" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Show me the solutions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-5" class="callout-5-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Q1</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>rna <span class="sc">|&gt;</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(gene) <span class="sc">|&gt;</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(</span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">mean_exp =</span> <span class="fu">mean</span>(expression),</span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">median_exp =</span> <span class="fu">median</span>(expression)</span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,474 × 3
+   gene     mean_exp median_exp
+   &lt;chr&gt;       &lt;dbl&gt;      &lt;dbl&gt;
+ 1 AI504432  1053.        1008 
+ 2 AW046200   131.         130.
+ 3 AW551984   295.         273 
+ 4 Aamp      4751.        4716.
+ 5 Abca12       4.55         5 
+ 6 Abcc8     2498.        2367 
+ 7 Abhd14a    525.         503 
+ 8 Abi2      4909.        4820.
+ 9 Abi3bp    1002.        1008.
+10 Abl2      2124.        2134.
+# ℹ 1,464 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Q2</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>rna <span class="sc">|&gt;</span></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(gene <span class="sc">==</span> <span class="st">"Dok3"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(time) <span class="sc">|&gt;</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean =</span> <span class="fu">mean</span>(expression))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 2
+   time  mean
+  &lt;dbl&gt; &lt;dbl&gt;
+1     0  169 
+2     4  156.
+3     8   61 </code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="counting-observations-per-group" class="level3" data-number="2.3.4">
+<h3 data-number="2.3.4" class="anchored" data-anchor-id="counting-observations-per-group"><span class="header-section-number">2.3.4</span> Counting observations per group</h3>
+<p>When working with data, we often want to know the number of observations found for each factor or combination of factors. For this task, <strong><code>dplyr</code></strong> provides <code>count()</code>. For example, if we wanted to count the number of rows of data for each infected and non-infected samples, we would do:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>rna <span class="sc">|&gt;</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(infection)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  infection       n
+  &lt;chr&gt;       &lt;int&gt;
+1 InfluenzaA  22110
+2 NonInfected 10318</code></pre>
+</div>
+</div>
+<p>If we wanted to count a <em>combination of factors</em>, such as <code>infection</code> and <code>time</code>, we would specify the first and the second factor as the arguments of <code>count()</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>rna <span class="sc">|&gt;</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">count</span>(infection, time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  infection    time     n
+  &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;
+1 InfluenzaA      4 11792
+2 InfluenzaA      8 10318
+3 NonInfected     0 10318</code></pre>
+</div>
+</div>
+<p>It is sometimes useful to sort the result to facilitate the comparisons. We can use <code>arrange()</code> to sort the table. For instance, we might want to arrange the table above by time:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Ascending order</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>rna <span class="sc">|&gt;</span></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(infection, time) <span class="sc">|&gt;</span></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  infection    time     n
+  &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;
+1 NonInfected     0 10318
+2 InfluenzaA      4 11792
+3 InfluenzaA      8 10318</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Descending order</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>rna <span class="sc">|&gt;</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(infection, time) <span class="sc">|&gt;</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span>time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  infection    time     n
+  &lt;chr&gt;       &lt;dbl&gt; &lt;int&gt;
+1 InfluenzaA      8 10318
+2 InfluenzaA      4 11792
+3 NonInfected     0 10318</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Practice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ol type="1">
+<li><p>How many genes were analyzed in each sample?</p></li>
+<li><p>Use <code>group_by()</code> and <code>summarise()</code> to evaluate the sequencing depth (the sum of all counts) in each sample. Which sample has the highest sequencing depth?</p></li>
+<li><p>Pick one sample and evaluate the number of genes by biotype.</p></li>
+<li><p>Identify genes associated with the “abnormal DNA methylation” phenotype description, and calculate their mean expression (in log) at time 0, time 4 and time 8.</p></li>
+</ol>
+<div class="callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-7-contents" aria-controls="callout-7" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Show me the solutions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-7" class="callout-7-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Q1</span></span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>rna <span class="sc">|&gt;</span></span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(sample)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 22 × 2
+   sample         n
+   &lt;chr&gt;      &lt;int&gt;
+ 1 GSM2545336  1474
+ 2 GSM2545337  1474
+ 3 GSM2545338  1474
+ 4 GSM2545339  1474
+ 5 GSM2545340  1474
+ 6 GSM2545341  1474
+ 7 GSM2545342  1474
+ 8 GSM2545343  1474
+ 9 GSM2545344  1474
+10 GSM2545345  1474
+# ℹ 12 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Q2</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>rna <span class="sc">|&gt;</span></span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(sample) <span class="sc">|&gt;</span></span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">seq_depth =</span> <span class="fu">sum</span>(expression)) <span class="sc">|&gt;</span></span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span>seq_depth)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 22 × 2
+   sample     seq_depth
+   &lt;chr&gt;          &lt;dbl&gt;
+ 1 GSM2545350   3255566
+ 2 GSM2545352   3216163
+ 3 GSM2545343   3105652
+ 4 GSM2545336   3039671
+ 5 GSM2545380   3036098
+ 6 GSM2545353   2953249
+ 7 GSM2545348   2913678
+ 8 GSM2545362   2913517
+ 9 GSM2545351   2782464
+10 GSM2545349   2758006
+# ℹ 12 more rows</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Q3</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a>rna <span class="sc">|&gt;</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sample <span class="sc">==</span> <span class="st">"GSM2545336"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(gene_biotype) <span class="sc">|&gt;</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="sc">-</span>n)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 13 × 2
+   gene_biotype                           n
+   &lt;chr&gt;                              &lt;int&gt;
+ 1 protein_coding                      1321
+ 2 lncRNA                                69
+ 3 processed_pseudogene                  59
+ 4 miRNA                                  7
+ 5 snoRNA                                 5
+ 6 TEC                                    4
+ 7 polymorphic_pseudogene                 2
+ 8 unprocessed_pseudogene                 2
+ 9 IG_C_gene                              1
+10 scaRNA                                 1
+11 transcribed_processed_pseudogene       1
+12 transcribed_unitary_pseudogene         1
+13 transcribed_unprocessed_pseudogene     1</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Q4</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>rna <span class="sc">|&gt;</span></span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(phenotype_description <span class="sc">==</span> <span class="st">"abnormal DNA methylation"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb53-4"><a href="#cb53-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(gene, time) <span class="sc">|&gt;</span></span>
+<span id="cb53-5"><a href="#cb53-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">mean_expression =</span> <span class="fu">mean</span>(<span class="fu">log</span>(expression))) <span class="sc">|&gt;</span></span>
+<span id="cb53-6"><a href="#cb53-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 3
+# Groups:   gene [2]
+  gene   time mean_expression
+  &lt;chr&gt; &lt;dbl&gt;           &lt;dbl&gt;
+1 Xist      0            6.95
+2 Xist      4            6.34
+3 Xist      8            7.13
+4 Zdbf2     0            6.27
+5 Zdbf2     4            6.27
+6 Zdbf2     8            6.19</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="joining-tables" class="level3" data-number="2.3.5">
+<h3 data-number="2.3.5" class="anchored" data-anchor-id="joining-tables"><span class="header-section-number">2.3.5</span> Joining tables</h3>
+<p>In many real-life situations, data are spread across multiple tables. A common example in transcriptomics is to have gene expression in one table, and functional annotation for each gene in another table. In these cases, one may want to combine the two tables based on a column in common.</p>
+<p>Joining tables can be done with the <strong><code>dplyr</code></strong> functions <code>inner_join()</code>, <code>full_join()</code>, <code>left_join()</code>, and <code>right_join()</code>, each of which are exemplified in the figure below:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="dplyr-joins.png" class="img-fluid figure-img"></p>
+<figcaption class="figure-caption"><strong><code>dplyr</code></strong> joins</figcaption>
+</figure>
+</div>
+<p>To demonstrate that, let’s first create a data frame with the mean expression of the genes <em>Asl</em>, <em>Apod</em>, and <em>Klk6</em>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mean expression of the genes `Asl`, `Apod`, and Klk6</span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>mean_exp <span class="ot">&lt;-</span> rna <span class="sc">|&gt;</span></span>
+<span id="cb55-3"><a href="#cb55-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(gene <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Asl"</span>, <span class="st">"Apod"</span>, <span class="st">"Klk6"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb55-4"><a href="#cb55-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(gene) <span class="sc">|&gt;</span></span>
+<span id="cb55-5"><a href="#cb55-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">summarise</span>(<span class="at">mean_exp =</span> <span class="fu">mean</span>(expression))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Next, we will load a table with genes and their descriptions, available in <code>data/gene_descriptions.csv</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read data</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>descriptions <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"gene_descriptions.csv"</span>))</span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect data</span></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(descriptions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 2
+  gene    gene_description                                                      
+  &lt;chr&gt;   &lt;chr&gt;                                                                 
+1 Cyp2d22 cytochrome P450, family 2, subfamily d, polypeptide 22 [Source:MGI Sy…
+2 Klk6    kallikrein related-peptidase 6 [Source:MGI Symbol;Acc:MGI:1343166]    
+3 Fcrls   Fc receptor-like S, scavenger receptor [Source:MGI Symbol;Acc:MGI:193…
+4 Plp1    proteolipid protein (myelin) 1 [Source:MGI Symbol;Acc:MGI:97623]      
+5 Exd2    exonuclease 3'-5' domain containing 2 [Source:MGI Symbol;Acc:MGI:1922…
+6 Apod    apolipoprotein D [Source:MGI Symbol;Acc:MGI:88056]                    </code></pre>
+</div>
+</div>
+<p>Now, we will combine the two tables so that we have the mean expression for each gene + gene descriptions in a single table. To combine the two tables while keeping only genes present in the column <code>gene</code> of both tables, we will use the function <code>inner_join()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(mean_exp, descriptions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 3
+  gene  mean_exp gene_description                                               
+  &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;                                                          
+1 Apod    18968. apolipoprotein D [Source:MGI Symbol;Acc:MGI:88056]             
+2 Asl       708. argininosuccinate lyase [Source:MGI Symbol;Acc:MGI:88084]      
+3 Klk6      554. kallikrein related-peptidase 6 [Source:MGI Symbol;Acc:MGI:1343…</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Challenge
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Join the tables <code>mean_exp</code> and <code>descriptions</code> using the function <code>full_join()</code>. How does the output change?</p>
+<div class="callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-9-contents" aria-controls="callout-9" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Show me the solutions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-9" class="callout-9-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">full_join</span>(mean_exp, descriptions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 10 × 3
+   gene    mean_exp gene_description                                            
+   &lt;chr&gt;      &lt;dbl&gt; &lt;chr&gt;                                                       
+ 1 Apod      18968. apolipoprotein D [Source:MGI Symbol;Acc:MGI:88056]          
+ 2 Asl         708. argininosuccinate lyase [Source:MGI Symbol;Acc:MGI:88084]   
+ 3 Klk6        554. kallikrein related-peptidase 6 [Source:MGI Symbol;Acc:MGI:1…
+ 4 Cyp2d22      NA  cytochrome P450, family 2, subfamily d, polypeptide 22 [Sou…
+ 5 Fcrls        NA  Fc receptor-like S, scavenger receptor [Source:MGI Symbol;A…
+ 6 Plp1         NA  proteolipid protein (myelin) 1 [Source:MGI Symbol;Acc:MGI:9…
+ 7 Exd2         NA  exonuclease 3'-5' domain containing 2 [Source:MGI Symbol;Ac…
+ 8 Gnb4         NA  guanine nucleotide binding protein (G protein), beta 4 [Sou…
+ 9 Slc2a4       NA  solute carrier family 2 (facilitated glucose transporter), …
+10 Gjc2         NA  gap junction protein, gamma 2 [Source:MGI Symbol;Acc:MGI:21…</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="the-tidyr-package-from-long-to-wide-and-vice-versa" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="the-tidyr-package-from-long-to-wide-and-vice-versa"><span class="header-section-number">2.4</span> The <strong><code>tidyr</code></strong> package: from long to wide, and vice versa</h2>
+<p>In the <code>rna</code> tibble, the rows contain expression values (the unit) that are associated with a combination of 2 other variables: <code>gene</code> and <code>sample</code>.</p>
+<p>All the other columns correspond to variables describing either the sample (organism, age, sex, …) or the gene (gene_biotype, ENTREZ_ID, product, …). The variables that don’t change with genes or with samples will have the same value in all the rows.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>rna <span class="sc">|&gt;</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(gene)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 32,428 × 19
+   gene     sample expression organism   age sex   infection strain  time tissue
+   &lt;chr&gt;    &lt;chr&gt;       &lt;dbl&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;     &lt;chr&gt;  &lt;dbl&gt; &lt;chr&gt; 
+ 1 AI504432 GSM25…       1230 Mus mus…     8 Fema… Influenz… C57BL…     8 Cereb…
+ 2 AI504432 GSM25…       1085 Mus mus…     8 Fema… NonInfec… C57BL…     0 Cereb…
+ 3 AI504432 GSM25…        969 Mus mus…     8 Fema… NonInfec… C57BL…     0 Cereb…
+ 4 AI504432 GSM25…       1284 Mus mus…     8 Fema… Influenz… C57BL…     4 Cereb…
+ 5 AI504432 GSM25…        966 Mus mus…     8 Male  Influenz… C57BL…     4 Cereb…
+ 6 AI504432 GSM25…        918 Mus mus…     8 Male  Influenz… C57BL…     8 Cereb…
+ 7 AI504432 GSM25…        985 Mus mus…     8 Fema… Influenz… C57BL…     8 Cereb…
+ 8 AI504432 GSM25…        972 Mus mus…     8 Male  NonInfec… C57BL…     0 Cereb…
+ 9 AI504432 GSM25…       1000 Mus mus…     8 Fema… Influenz… C57BL…     4 Cereb…
+10 AI504432 GSM25…        816 Mus mus…     8 Male  Influenz… C57BL…     4 Cereb…
+# ℹ 32,418 more rows
+# ℹ 9 more variables: mouse &lt;dbl&gt;, ENTREZID &lt;dbl&gt;, product &lt;chr&gt;,
+#   ensembl_gene_id &lt;chr&gt;, external_synonym &lt;chr&gt;, chromosome_name &lt;chr&gt;,
+#   gene_biotype &lt;chr&gt;, phenotype_description &lt;chr&gt;,
+#   hsapiens_homolog_associated_gene_name &lt;chr&gt;</code></pre>
+</div>
+</div>
+<p>This structure is called a <code>long-format</code>, as one column contains all the values, and other column(s) list(s) the context of the value.</p>
+<p>In certain cases, the <code>long-format</code> is not really “human-readable”, and another format, a <code>wide-format</code> is preferred, as a more compact way of representing the data. This is typically the case with gene expression values that scientists are used to look as matrices, were rows represent genes and columns represent samples.</p>
+<p>In this format, it would therefore become straightforward to explore the relationship between the gene expression levels within, and between, the samples.</p>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,474 × 23
+   gene    GSM2545336 GSM2545337 GSM2545338 GSM2545339 GSM2545340 GSM2545341
+   &lt;chr&gt;        &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+ 1 Asl           1170        361        400        586        626        988
+ 2 Apod         36194      10347       9173      10620      13021      29594
+ 3 Cyp2d22       4060       1616       1603       1901       2171       3349
+ 4 Klk6           287        629        641        578        448        195
+ 5 Fcrls           85        233        244        237        180         38
+ 6 Slc2a4         782        231        248        265        313        786
+ 7 Exd2          1619       2288       2235       2513       2366       1359
+ 8 Gjc2           288        595        568        551        310        146
+ 9 Plp1         43217     101241      96534      58354      53126      27173
+10 Gnb4          1071       1791       1867       1430       1355        798
+# ℹ 1,464 more rows
+# ℹ 16 more variables: GSM2545342 &lt;dbl&gt;, GSM2545343 &lt;dbl&gt;, GSM2545344 &lt;dbl&gt;,
+#   GSM2545345 &lt;dbl&gt;, GSM2545346 &lt;dbl&gt;, GSM2545347 &lt;dbl&gt;, GSM2545348 &lt;dbl&gt;,
+#   GSM2545349 &lt;dbl&gt;, GSM2545350 &lt;dbl&gt;, GSM2545351 &lt;dbl&gt;, GSM2545352 &lt;dbl&gt;,
+#   GSM2545353 &lt;dbl&gt;, GSM2545354 &lt;dbl&gt;, GSM2545362 &lt;dbl&gt;, GSM2545363 &lt;dbl&gt;,
+#   GSM2545380 &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>To convert the gene expression values from <code>rna</code> into a wide format, we need to create a new table where the values of the <code>sample</code> column would become the names of column variables.</p>
+<p>The key point here is that we are still following a tidy data structure, but we have <strong>reshaped</strong> the data according to the observations of interest: expression levels per gene instead of recording them per gene and per sample.</p>
+<p>Reshaping data from long to wide format can be performed with the function <code>pivot_wider()</code> from <strong><code>tidyr</code></strong>. For example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-23"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-23-1"><a href="#annotated-cell-23-1" aria-hidden="true" tabindex="-1"></a>rna_wide <span class="ot">&lt;-</span> rna <span class="sc">|&gt;</span>                            </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-23" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-23-2" class="code-annotation-target"><a href="#annotated-cell-23-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(gene, sample, expression) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-23-3"><a href="#annotated-cell-23-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-23" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-23-4" class="code-annotation-target"><a href="#annotated-cell-23-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">names_from =</span> sample,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-23" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-23-5" class="code-annotation-target"><a href="#annotated-cell-23-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">values_from =</span> expression</span>
+<span id="annotated-cell-23-6"><a href="#annotated-cell-23-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="annotated-cell-23-7"><a href="#annotated-cell-23-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-23-8"><a href="#annotated-cell-23-8" aria-hidden="true" tabindex="-1"></a>rna_wide</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-23" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="2" data-code-annotation="1" data-code-cell="annotated-cell-23">Select columns <code>gene</code>, <code>sample</code>, and <code>expression</code></span>
+</dd>
+<dt data-target-cell="annotated-cell-23" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-lines="4" data-code-annotation="2" data-code-cell="annotated-cell-23">Columns names of the wide table will be the values of the <code>sample</code> column</span>
+</dd>
+<dt data-target-cell="annotated-cell-23" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-lines="5" data-code-annotation="3" data-code-cell="annotated-cell-23">Values in the wide table will be the values of the <code>expression</code> column</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,474 × 23
+   gene    GSM2545336 GSM2545337 GSM2545338 GSM2545339 GSM2545340 GSM2545341
+   &lt;chr&gt;        &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+ 1 Asl           1170        361        400        586        626        988
+ 2 Apod         36194      10347       9173      10620      13021      29594
+ 3 Cyp2d22       4060       1616       1603       1901       2171       3349
+ 4 Klk6           287        629        641        578        448        195
+ 5 Fcrls           85        233        244        237        180         38
+ 6 Slc2a4         782        231        248        265        313        786
+ 7 Exd2          1619       2288       2235       2513       2366       1359
+ 8 Gjc2           288        595        568        551        310        146
+ 9 Plp1         43217     101241      96534      58354      53126      27173
+10 Gnb4          1071       1791       1867       1430       1355        798
+# ℹ 1,464 more rows
+# ℹ 16 more variables: GSM2545342 &lt;dbl&gt;, GSM2545343 &lt;dbl&gt;, GSM2545344 &lt;dbl&gt;,
+#   GSM2545345 &lt;dbl&gt;, GSM2545346 &lt;dbl&gt;, GSM2545347 &lt;dbl&gt;, GSM2545348 &lt;dbl&gt;,
+#   GSM2545349 &lt;dbl&gt;, GSM2545350 &lt;dbl&gt;, GSM2545351 &lt;dbl&gt;, GSM2545352 &lt;dbl&gt;,
+#   GSM2545353 &lt;dbl&gt;, GSM2545354 &lt;dbl&gt;, GSM2545362 &lt;dbl&gt;, GSM2545363 &lt;dbl&gt;,
+#   GSM2545380 &lt;dbl&gt;</code></pre>
+</div>
+</div>
+<p>To reshape data back to the long format, we would use the function <code>pivot_longer()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-24"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-24-1"><a href="#annotated-cell-24-1" aria-hidden="true" tabindex="-1"></a>rna_long <span class="ot">&lt;-</span> rna_wide <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-24-2"><a href="#annotated-cell-24-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-24" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-24-3" class="code-annotation-target"><a href="#annotated-cell-24-3" aria-hidden="true" tabindex="-1"></a>        <span class="sc">-</span>gene,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-24" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-24-4" class="code-annotation-target"><a href="#annotated-cell-24-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">names_to =</span> <span class="st">"sample"</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-24" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-24-5" class="code-annotation-target"><a href="#annotated-cell-24-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">values_to =</span> <span class="st">"expression"</span></span>
+<span id="annotated-cell-24-6"><a href="#annotated-cell-24-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="annotated-cell-24-7"><a href="#annotated-cell-24-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-24-8"><a href="#annotated-cell-24-8" aria-hidden="true" tabindex="-1"></a>rna_long</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-24" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-lines="3" data-code-annotation="1" data-code-cell="annotated-cell-24">Use all columns except <code>gene</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-24" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-lines="4" data-code-annotation="2" data-code-cell="annotated-cell-24">Column names of the wide table will become a variable named <em>sample</em></span>
+</dd>
+<dt data-target-cell="annotated-cell-24" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-lines="5" data-code-annotation="3" data-code-cell="annotated-cell-24">Values in the wide table will become a variable named <em>expression</em></span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 32,428 × 3
+   gene  sample     expression
+   &lt;chr&gt; &lt;chr&gt;           &lt;dbl&gt;
+ 1 Asl   GSM2545336       1170
+ 2 Asl   GSM2545337        361
+ 3 Asl   GSM2545338        400
+ 4 Asl   GSM2545339        586
+ 5 Asl   GSM2545340        626
+ 6 Asl   GSM2545341        988
+ 7 Asl   GSM2545342        836
+ 8 Asl   GSM2545343        535
+ 9 Asl   GSM2545344        586
+10 Asl   GSM2545345        597
+# ℹ 32,418 more rows</code></pre>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Practice
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Starting from the rna table, use the <code>pivot_wider()</code> function to create a wide-format table giving the gene expression levels in each mouse. Then use the <code>pivot_longer()</code> function to restore a long-format table.</p>
+<div class="callout callout-style-simple callout-none no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-11-contents" aria-controls="callout-11" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Show me the solutions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-11" class="callout-11-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb67"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>rna1 <span class="ot">&lt;-</span> rna <span class="sc">|&gt;</span></span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(gene, mouse, expression) <span class="sc">|&gt;</span></span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_wider</span>(<span class="at">names_from =</span> mouse, <span class="at">values_from =</span> expression)</span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>rna1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1,474 × 23
+   gene     `14`    `9`  `10`  `15`  `18`   `6`   `5`  `11`  `22`  `13`  `23`
+   &lt;chr&gt;   &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+ 1 Asl      1170    361   400   586   626   988   836   535   586   597   938
+ 2 Apod    36194  10347  9173 10620 13021 29594 24959 13668 13230 15868 27769
+ 3 Cyp2d22  4060   1616  1603  1901  2171  3349  3122  2008  2254  2277  2985
+ 4 Klk6      287    629   641   578   448   195   186  1101   537   567   327
+ 5 Fcrls      85    233   244   237   180    38    68   375   199   177    89
+ 6 Slc2a4    782    231   248   265   313   786   528   249   266   357   654
+ 7 Exd2     1619   2288  2235  2513  2366  1359  1474  3126  2379  2173  1531
+ 8 Gjc2      288    595   568   551   310   146   186   791   454   370   240
+ 9 Plp1    43217 101241 96534 58354 53126 27173 28728 98658 61356 61647 38019
+10 Gnb4     1071   1791  1867  1430  1355   798   806  2437  1394  1554   960
+# ℹ 1,464 more rows
+# ℹ 11 more variables: `24` &lt;dbl&gt;, `8` &lt;dbl&gt;, `7` &lt;dbl&gt;, `1` &lt;dbl&gt;, `16` &lt;dbl&gt;,
+#   `21` &lt;dbl&gt;, `4` &lt;dbl&gt;, `2` &lt;dbl&gt;, `20` &lt;dbl&gt;, `12` &lt;dbl&gt;, `19` &lt;dbl&gt;</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb69"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a>rna1 <span class="sc">|&gt;</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">pivot_longer</span>(<span class="sc">-</span>gene, <span class="at">names_to =</span> <span class="st">"mouse_id"</span>, <span class="at">values_to =</span> <span class="st">"counts"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 32,428 × 3
+   gene  mouse_id counts
+   &lt;chr&gt; &lt;chr&gt;     &lt;dbl&gt;
+ 1 Asl   14         1170
+ 2 Asl   9           361
+ 3 Asl   10          400
+ 4 Asl   15          586
+ 5 Asl   18          626
+ 6 Asl   6           988
+ 7 Asl   5           836
+ 8 Asl   11          535
+ 9 Asl   22          586
+10 Asl   13          597
+# ℹ 32,418 more rows</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<section id="exporting-data" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="exporting-data"><span class="header-section-number">2.5</span> Exporting data</h2>
+<p>Finally, to export tabular data, we will use the <code>write_*</code> functions from the <strong><code>tidyr</code></strong> package. Here, we will export the tibble <code>rna_wide</code> to a .csv file. For that, we will use the function <code>write_csv()</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb71"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" aria-hidden="true" tabindex="-1"></a><span class="fu">write_csv</span>(rna_wide, <span class="at">file =</span> <span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"rna_wide.csv"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../chapters/01_intro_to_R.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Getting started with R data classes</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../chapters/03_visualization.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Visualizing data with <strong><code>ggplot2</code></strong></span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
