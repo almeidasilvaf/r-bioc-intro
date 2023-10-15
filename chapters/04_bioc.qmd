@@ -274,36 +274,6 @@ by name.
 demo_with_metadata["A"]
 ```
 
-### Operations on `IRanges`
-
-`IRanges` provide the basis for most operations on ranges of numerical coordinates.
-
-For instance, given two sets of ranges - a query set and a subject set - the
-`findOVerlaps()` function can be used to find out which pairs of ranges in the
-two sets overlap with each other.
-
-```{r}
-query_iranges <- IRanges(
-    start = c(8, 16),
-    end   = c(14, 18)
-)
-
-overlaps_iranges <- findOverlaps(query = query_iranges, subject = demo_iranges)
-overlaps_iranges
-```
-
-The results are returned in the form of a `Hits` object, which we have not
-introduced yet.
-A `Hits` object is visualised as a table that comprises two integer
-columns named `queryHits` and `subjectHits`.
-Each row in the table reports an overlap between one range in the query set
-and one range in the subject set, with the integer value in each column
-indicating the index of the range in each set involved in the overlap.
-
-In this example, we confirm that the first range in the query set overlaps the
-first range in the subject set; while the second range in the query set overlaps
-both ranges in the subject set.
-
 ### The `GRanges` class
 
 Having defined integer ranges, the only additional information necessary to
@@ -368,7 +338,7 @@ The example above reveals that information about sequences include not only
 their respective name and length, but also whether they represent a circular
 polymer (e.g., plasmid), and the name of the genome that they are part of.
 
-### Metadata on GRanges
+### Metadata on `GRanges`
 
 Similarly to `IRanges`, metadata can be passed directly to the `GRanges`
 constructor function.
@@ -434,7 +404,7 @@ columns of metadata.
 From here on, this `GRanges` object can be manipulated just like any of the
 other `GRanges` objects that we have created earlier in this episode.
 
-### Operations on GRanges and the GRangesList class
+### Operations on `GRanges` and the `GRangesList` class
 
 As we have demonstrated so far, `GRanges` objects can be manually defined
 or imported from files.

@@ -10,7 +10,7 @@ several useful packages for data analysis which work well together,
 such as **`tidyr`**, **`dplyr`**, **`ggplot2`**, **`tibble`**, etc.
 These packages help us to work and interact with the data.
 They allow us to do many things with your data, such as subsetting, 
-transforming, visualising, etc.
+transforming, visualizing, etc.
 
 Let's start by loading the tidyverse package:
 
@@ -32,8 +32,7 @@ At the end of this lesson, you will be able to:
 
 ## The **`readr`** package: reading files
 
-The data we will use in this lesson are in `data/rnaseq.csv` in
-[the GitHub repo associated with this course](https://github.com/almeidasilvaf/r-bioc-intro). This is a
+The data we will use in this lesson are stored in `data/rnaseq.csv`. This is a
 *comma-separated file*, which means it contains a table in which columns
 are separated by commas. To read .csv files, we will use the function
 `read_csv()` from the **`readr`** package.
@@ -46,7 +45,7 @@ rna <- read_csv(here("data", "rnaseq.csv"))
 head(rna)
 ```
 
-Notice that the class of the data is now referred to as a "tibble".
+Notice that the class of the data is now referred to as a `tibble`.
 
 Tibbles tweak some of the behaviors of the data frame objects we introduced in the
 previously. The data structure is very similar to a data frame. For our purposes
@@ -99,7 +98,7 @@ filter(rna, sex == "Male" & infection == "NonInfected")
 ```
 
 Now, let's imagine we are interested in the human homologs of the mouse
-genes analysed in this dataset. This information can be found in the
+genes analyzed in this dataset. This information can be found in the
 last column of the `rna` tibble, named
 `hsapiens_homolog_associated_gene_name`. To visualise it easily, we
 will create a new table containing just the 2 columns `gene` and

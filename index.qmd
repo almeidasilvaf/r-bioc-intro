@@ -4,8 +4,7 @@
 This book contains the materials for the course
 *Introduction to R/Bioconductor*, which I offer
 in partnership with [Physalia courses](https://www.physalia-courses.org/).
-This is a 5-day course, and each chapter of this book contains the materials
-for one day. In details:
+This is a 5-day course, and the contents covered in the course are:
 
 1. Getting started with R data classes
 2. Data analysis with the tidyverse
