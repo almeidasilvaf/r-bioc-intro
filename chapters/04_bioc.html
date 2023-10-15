@@ -184,12 +184,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
   <li><a href="#the-iranges-class" id="toc-the-iranges-class" class="nav-link" data-scroll-target="#the-iranges-class"><span class="header-section-number">4.3.1</span> The <code>IRanges</code> class</a></li>
   <li><a href="#metadata-on-iranges" id="toc-metadata-on-iranges" class="nav-link" data-scroll-target="#metadata-on-iranges"><span class="header-section-number">4.3.2</span> Metadata on <code>IRanges</code></a></li>
-  <li><a href="#operations-on-iranges" id="toc-operations-on-iranges" class="nav-link" data-scroll-target="#operations-on-iranges"><span class="header-section-number">4.3.3</span> Operations on <code>IRanges</code></a></li>
-  <li><a href="#the-granges-class" id="toc-the-granges-class" class="nav-link" data-scroll-target="#the-granges-class"><span class="header-section-number">4.3.4</span> The <code>GRanges</code> class</a></li>
-  <li><a href="#metadata-on-granges" id="toc-metadata-on-granges" class="nav-link" data-scroll-target="#metadata-on-granges"><span class="header-section-number">4.3.5</span> Metadata on GRanges</a></li>
-  <li><a href="#importing-genomic-ranges-from-files" id="toc-importing-genomic-ranges-from-files" class="nav-link" data-scroll-target="#importing-genomic-ranges-from-files"><span class="header-section-number">4.3.6</span> Importing genomic ranges from files</a></li>
-  <li><a href="#operations-on-granges-and-the-grangeslist-class" id="toc-operations-on-granges-and-the-grangeslist-class" class="nav-link" data-scroll-target="#operations-on-granges-and-the-grangeslist-class"><span class="header-section-number">4.3.7</span> Operations on GRanges and the GRangesList class</a></li>
-  <li><a href="#subset-by-overlap" id="toc-subset-by-overlap" class="nav-link" data-scroll-target="#subset-by-overlap"><span class="header-section-number">4.3.8</span> Subset by overlap</a></li>
+  <li><a href="#the-granges-class" id="toc-the-granges-class" class="nav-link" data-scroll-target="#the-granges-class"><span class="header-section-number">4.3.3</span> The <code>GRanges</code> class</a></li>
+  <li><a href="#metadata-on-granges" id="toc-metadata-on-granges" class="nav-link" data-scroll-target="#metadata-on-granges"><span class="header-section-number">4.3.4</span> Metadata on <code>GRanges</code></a></li>
+  <li><a href="#importing-genomic-ranges-from-files" id="toc-importing-genomic-ranges-from-files" class="nav-link" data-scroll-target="#importing-genomic-ranges-from-files"><span class="header-section-number">4.3.5</span> Importing genomic ranges from files</a></li>
+  <li><a href="#operations-on-granges-and-the-grangeslist-class" id="toc-operations-on-granges-and-the-grangeslist-class" class="nav-link" data-scroll-target="#operations-on-granges-and-the-grangeslist-class"><span class="header-section-number">4.3.6</span> Operations on <code>GRanges</code> and the <code>GRangesList</code> class</a></li>
+  <li><a href="#subset-by-overlap" id="toc-subset-by-overlap" class="nav-link" data-scroll-target="#subset-by-overlap"><span class="header-section-number">4.3.7</span> Subset by overlap</a></li>
   </ul></li>
   <li><a href="#working-with-quantitative-data-the-summarizedexperiment-package" id="toc-working-with-quantitative-data-the-summarizedexperiment-package" class="nav-link" data-scroll-target="#working-with-quantitative-data-the-summarizedexperiment-package"><span class="header-section-number">4.4</span> Working with quantitative data: the <strong><code>SummarizedExperiment</code></strong> package</a>
   <ul class="collapse">
@@ -544,34 +543,8 @@ B             target              200</code></pre>
 </div>
 </div>
 </section>
-<section id="operations-on-iranges" class="level3" data-number="4.3.3">
-<h3 data-number="4.3.3" class="anchored" data-anchor-id="operations-on-iranges"><span class="header-section-number">4.3.3</span> Operations on <code>IRanges</code></h3>
-<p><code>IRanges</code> provide the basis for most operations on ranges of numerical coordinates.</p>
-<p>For instance, given two sets of ranges - a query set and a subject set - the <code>findOVerlaps()</code> function can be used to find out which pairs of ranges in the two sets overlap with each other.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>query_iranges <span class="ot">&lt;-</span> <span class="fu">IRanges</span>(</span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">16</span>),</span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">end   =</span> <span class="fu">c</span>(<span class="dv">14</span>, <span class="dv">18</span>)</span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>overlaps_iranges <span class="ot">&lt;-</span> <span class="fu">findOverlaps</span>(<span class="at">query =</span> query_iranges, <span class="at">subject =</span> demo_iranges)</span>
-<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>overlaps_iranges</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Hits object with 3 hits and 0 metadata columns:
-      queryHits subjectHits
-      &lt;integer&gt;   &lt;integer&gt;
-  [1]         1           1
-  [2]         2           1
-  [3]         2           2
-  -------
-  queryLength: 2 / subjectLength: 2</code></pre>
-</div>
-</div>
-<p>The results are returned in the form of a <code>Hits</code> object, which we have not introduced yet. A <code>Hits</code> object is visualised as a table that comprises two integer columns named <code>queryHits</code> and <code>subjectHits</code>. Each row in the table reports an overlap between one range in the query set and one range in the subject set, with the integer value in each column indicating the index of the range in each set involved in the overlap.</p>
-<p>In this example, we confirm that the first range in the query set overlaps the first range in the subject set; while the second range in the query set overlaps both ranges in the subject set.</p>
-</section>
-<section id="the-granges-class" class="level3" data-number="4.3.4">
-<h3 data-number="4.3.4" class="anchored" data-anchor-id="the-granges-class"><span class="header-section-number">4.3.4</span> The <code>GRanges</code> class</h3>
+<section id="the-granges-class" class="level3" data-number="4.3.3">
+<h3 data-number="4.3.3" class="anchored" data-anchor-id="the-granges-class"><span class="header-section-number">4.3.3</span> The <code>GRanges</code> class</h3>
 <p>Having defined integer ranges, the only additional information necessary to define genomic ranges is the name of the genomic sequence on which each range is located.</p>
 <p>For instance, we define two genomic ranges, as follows:</p>
 <ul>
@@ -580,14 +553,14 @@ B             target              200</code></pre>
 </ul>
 <p>To do so, we use the <code>GRanges()</code> constructor function. We provide the sequence names as a character vector to the argument <code>seqnames=</code>, and we provide both the start and end position to the argument <code>ranges=</code> as an <code>IRanges</code> object.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>demo_granges <span class="ot">&lt;-</span> <span class="fu">GRanges</span>(</span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">seqnames =</span> <span class="fu">c</span>(<span class="st">"chr1"</span>, <span class="st">"chr2"</span>),</span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ranges =</span> <span class="fu">IRanges</span>(</span>
-<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>),</span>
-<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">end   =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">35</span>))</span>
-<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a>demo_granges</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>demo_granges <span class="ot">&lt;-</span> <span class="fu">GRanges</span>(</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">seqnames =</span> <span class="fu">c</span>(<span class="st">"chr1"</span>, <span class="st">"chr2"</span>),</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ranges =</span> <span class="fu">IRanges</span>(</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>),</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">end   =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">35</span>))</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>demo_granges</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>GRanges object with 2 ranges and 0 metadata columns:
       seqnames    ranges strand
@@ -601,15 +574,15 @@ B             target              200</code></pre>
 <p>In the console, the object displays the sequence names in the <code>seqnames</code> component, and the ranges in the form <code>start-end</code> in the <code>ranges</code> component. Furthermore, the example above also demonstrate that <code>GRanges</code> objects possess a component called <code>strand</code>; the symbol <code>*</code> indicates unstranded genomic ranges, as we have not provided that information.</p>
 <p>The strand information can be supplied to the <code>strand=</code> argument, for instance:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>demo_granges2 <span class="ot">&lt;-</span> <span class="fu">GRanges</span>(</span>
-<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">seqnames =</span> <span class="fu">c</span>(<span class="st">"chr1"</span>, <span class="st">"chr2"</span>),</span>
-<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ranges =</span> <span class="fu">IRanges</span>(</span>
-<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>),</span>
-<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">end   =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">35</span>)),</span>
-<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">strand  =</span> <span class="fu">c</span>(<span class="st">"+"</span>, <span class="st">"-"</span>)</span>
-<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>demo_granges2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>demo_granges2 <span class="ot">&lt;-</span> <span class="fu">GRanges</span>(</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">seqnames =</span> <span class="fu">c</span>(<span class="st">"chr1"</span>, <span class="st">"chr2"</span>),</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ranges =</span> <span class="fu">IRanges</span>(</span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>),</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">end   =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">35</span>)),</span>
+<span id="cb50-6"><a href="#cb50-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">strand  =</span> <span class="fu">c</span>(<span class="st">"+"</span>, <span class="st">"-"</span>)</span>
+<span id="cb50-7"><a href="#cb50-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb50-8"><a href="#cb50-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-9"><a href="#cb50-9" aria-hidden="true" tabindex="-1"></a>demo_granges2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>GRanges object with 2 ranges and 0 metadata columns:
       seqnames    ranges strand
@@ -622,7 +595,7 @@ B             target              200</code></pre>
 </div>
 <p>Finally, the examples above also demonstrate that <code>GRanges</code> objects include a component called <code>seqinfo</code>, which is occasionally used to store information about each sequence that may be represented in the <code>seqnames</code> component. In the latest example above, we have not provide any information about any sequence. As such, the <code>seqinfo</code> component was automatically populated with the names of the sequences that we used to create the object, while the remaining pieces of information were left unspecified, as <code>NA</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seqinfo</span>(demo_granges2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb52"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="fu">seqinfo</span>(demo_granges2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Seqinfo object with 2 sequences from an unspecified genome; no seqlengths:
   seqnames seqlengths isCircular genome
@@ -632,20 +605,20 @@ B             target              200</code></pre>
 </div>
 <p>The example above reveals that information about sequences include not only their respective name and length, but also whether they represent a circular polymer (e.g., plasmid), and the name of the genome that they are part of.</p>
 </section>
-<section id="metadata-on-granges" class="level3" data-number="4.3.5">
-<h3 data-number="4.3.5" class="anchored" data-anchor-id="metadata-on-granges"><span class="header-section-number">4.3.5</span> Metadata on GRanges</h3>
+<section id="metadata-on-granges" class="level3" data-number="4.3.4">
+<h3 data-number="4.3.4" class="anchored" data-anchor-id="metadata-on-granges"><span class="header-section-number">4.3.4</span> Metadata on <code>GRanges</code></h3>
 <p>Similarly to <code>IRanges</code>, metadata can be passed directly to the <code>GRanges</code> constructor function. For instance:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a>demo_granges3 <span class="ot">&lt;-</span> <span class="fu">GRanges</span>(</span>
-<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">seqnames =</span> <span class="fu">c</span>(<span class="st">"chr1"</span>, <span class="st">"chr2"</span>),</span>
-<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ranges =</span> <span class="fu">IRanges</span>(</span>
-<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>),</span>
-<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">end =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">35</span>)),</span>
-<span id="cb56-6"><a href="#cb56-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">metadata1 =</span> <span class="fu">c</span>(<span class="st">"control"</span>, <span class="st">"target"</span>),</span>
-<span id="cb56-7"><a href="#cb56-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">metadata2 =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)</span>
-<span id="cb56-8"><a href="#cb56-8" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb56-9"><a href="#cb56-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-10"><a href="#cb56-10" aria-hidden="true" tabindex="-1"></a>demo_granges3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>demo_granges3 <span class="ot">&lt;-</span> <span class="fu">GRanges</span>(</span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">seqnames =</span> <span class="fu">c</span>(<span class="st">"chr1"</span>, <span class="st">"chr2"</span>),</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ranges =</span> <span class="fu">IRanges</span>(</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">20</span>),</span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">end =</span> <span class="fu">c</span>(<span class="dv">25</span>, <span class="dv">35</span>)),</span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">metadata1 =</span> <span class="fu">c</span>(<span class="st">"control"</span>, <span class="st">"target"</span>),</span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">metadata2 =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>)</span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a>demo_granges3</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>GRanges object with 2 ranges and 2 metadata columns:
       seqnames    ranges strand |   metadata1 metadata2
@@ -657,17 +630,17 @@ B             target              200</code></pre>
 </div>
 </div>
 </section>
-<section id="importing-genomic-ranges-from-files" class="level3" data-number="4.3.6">
-<h3 data-number="4.3.6" class="anchored" data-anchor-id="importing-genomic-ranges-from-files"><span class="header-section-number">4.3.6</span> Importing genomic ranges from files</h3>
+<section id="importing-genomic-ranges-from-files" class="level3" data-number="4.3.5">
+<h3 data-number="4.3.5" class="anchored" data-anchor-id="importing-genomic-ranges-from-files"><span class="header-section-number">4.3.5</span> Importing genomic ranges from files</h3>
 <p>Frequently, large collections of genomic ranges are imported from files rather than described in manually written code. In particular, genome-wide annotations of known gene features are distributed as files on websites such as <a href="https://www.ensembl.org/info/data/index.html">Ensembl</a>.</p>
 <p>Various file formats are commonly used to store genomic ranges in bioinformatics workflows. For instance, the BED (Browser Extensible Data) format is commonly found in Chromatin Immunoprecipitation Sequencing (ChIP-Seq), while GTF (Gene Transfer Format, GTF2.2) is the <em>de facto</em> standard file format to describe genomic features such as exons, transcripts, and genes.</p>
 <p>In the following example, we import the gene model for Actin Beta (ACTB) from a small GTF file as a set of genomic ranges. The example file represents a subset of a GTF file for the <em>Homo sapiens</em> species, downloaded from <a href="https://www.ensembl.org/info/data/index.html">Ensembl</a>. The original file contains more than 3 millions lines and 22 metadata fields, from which a subset was extracted into a smaller file for this lesson.</p>
 <p>In particular, we use the <code>import()</code> generic defined in the <em><a href="https://bioconductor.org/packages/3.17/BiocIO">BiocIO</a></em> package - with methods implemented in the <em><a href="https://bioconductor.org/packages/3.17/rtracklayer">rtracklayer</a></em> package - as a versatile function that is capable of recognising common file extensions and associating them with the appropriate method for parsing each particular file format.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rtracklayer)</span>
-<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>actb_gtf_data <span class="ot">&lt;-</span> rtracklayer<span class="sc">::</span><span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"actb.gtf"</span>))</span>
-<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a>actb_gtf_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb56"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rtracklayer)</span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>actb_gtf_data <span class="ot">&lt;-</span> rtracklayer<span class="sc">::</span><span class="fu">import</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"actb.gtf"</span>))</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a>actb_gtf_data</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>GRanges object with 267 ranges and 7 metadata columns:
         seqnames          ranges strand |      source           type     score
@@ -703,14 +676,14 @@ B             target              200</code></pre>
 <p>In the example above, the contents of the GTF file were imported into a <code>GRanges</code> object. For each entry in the file, the sequence name, start and end position, and strand information were used to populate the dedicated components of the object, while all other pieces of information are stored as separate columns of metadata.</p>
 <p>From here on, this <code>GRanges</code> object can be manipulated just like any of the other <code>GRanges</code> objects that we have created earlier in this episode.</p>
 </section>
-<section id="operations-on-granges-and-the-grangeslist-class" class="level3" data-number="4.3.7">
-<h3 data-number="4.3.7" class="anchored" data-anchor-id="operations-on-granges-and-the-grangeslist-class"><span class="header-section-number">4.3.7</span> Operations on GRanges and the GRangesList class</h3>
+<section id="operations-on-granges-and-the-grangeslist-class" class="level3" data-number="4.3.6">
+<h3 data-number="4.3.6" class="anchored" data-anchor-id="operations-on-granges-and-the-grangeslist-class"><span class="header-section-number">4.3.6</span> Operations on <code>GRanges</code> and the <code>GRangesList</code> class</h3>
 <p>As we have demonstrated so far, <code>GRanges</code> objects can be manually defined or imported from files. Those often represent genomic regions of interest, and databases of known genomic features, respectively. Either way, a number of operations are commonly applied to <code>GRanges</code> objects throughout bioinformatics workflows.</p>
-<section id="subset" class="level4" data-number="4.3.7.1">
-<h4 data-number="4.3.7.1" class="anchored" data-anchor-id="subset"><span class="header-section-number">4.3.7.1</span> Subset</h4>
+<section id="subset" class="level4" data-number="4.3.6.1">
+<h4 data-number="4.3.6.1" class="anchored" data-anchor-id="subset"><span class="header-section-number">4.3.6.1</span> Subset</h4>
 <p>For instance, the <code>subset()</code> method is extremely convenient to extract a set of genomic ranges matching a condition on any component, including sequence name, start and end position, strand, or any metadata field. In the example below, we extract all the records of type <code>transcript</code> that start at position <code>5527147</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(actb_gtf_data, type <span class="sc">==</span> <span class="st">"transcript"</span> <span class="sc">&amp;</span> start <span class="sc">==</span> <span class="dv">5527147</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb58"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a><span class="fu">subset</span>(actb_gtf_data, type <span class="sc">==</span> <span class="st">"transcript"</span> <span class="sc">&amp;</span> start <span class="sc">==</span> <span class="dv">5527147</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>GRanges object with 5 ranges and 7 metadata columns:
       seqnames          ranges strand |      source       type     score
@@ -732,14 +705,14 @@ B             target              200</code></pre>
 </div>
 </div>
 </section>
-<section id="split" class="level4" data-number="4.3.7.2">
-<h4 data-number="4.3.7.2" class="anchored" data-anchor-id="split"><span class="header-section-number">4.3.7.2</span> Split</h4>
+<section id="split" class="level4" data-number="4.3.6.2">
+<h4 data-number="4.3.6.2" class="anchored" data-anchor-id="split"><span class="header-section-number">4.3.6.2</span> Split</h4>
 <p>Separately, the <code>split()</code> method is useful to divide a set of genomic ranges initially stored in a single <code>GRanges</code> object into groups that are stored in a named list of <code>GRanges</code> objects. Conveniently, the <code>GRangesList</code> class provides a container for efficiently displaying and processing lists of <code>GRanges</code> objects.</p>
 <p>In the example below, we first extract the subset of entries that represent exons, before separating those exons by transcript identifier, yielding the result as a <code>GRangesList</code> object.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a>actb_exons <span class="ot">&lt;-</span> <span class="fu">subset</span>(actb_gtf_data, type <span class="sc">==</span> <span class="st">"exon"</span>)</span>
-<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>actb_exons_by_transcript <span class="ot">&lt;-</span> <span class="fu">split</span>(actb_exons, actb_exons<span class="sc">$</span>transcript_id)</span>
-<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>actb_exons_by_transcript</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb60"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>actb_exons <span class="ot">&lt;-</span> <span class="fu">subset</span>(actb_gtf_data, type <span class="sc">==</span> <span class="st">"exon"</span>)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>actb_exons_by_transcript <span class="ot">&lt;-</span> <span class="fu">split</span>(actb_exons, actb_exons<span class="sc">$</span>transcript_id)</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>actb_exons_by_transcript</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>GRangesList object of length 23:
 $ENST00000414620
@@ -803,12 +776,12 @@ GRanges object with 7 ranges and 7 metadata columns:
 </div>
 <p>When printing the object above in the console, the first line confirms the class of the object as <code>GRrangesList</code>, while each named <code>GRanges</code> in that list is introduced by the dollar sign and the name of that item, just like regular named lists in base R.</p>
 </section>
-<section id="length" class="level4" data-number="4.3.7.3">
-<h4 data-number="4.3.7.3" class="anchored" data-anchor-id="length"><span class="header-section-number">4.3.7.3</span> Length</h4>
+<section id="length" class="level4" data-number="4.3.6.3">
+<h4 data-number="4.3.6.3" class="anchored" data-anchor-id="length"><span class="header-section-number">4.3.6.3</span> Length</h4>
 <p>By nature, many of the methods applicable to <code>list</code> objects can be directly applied to <code>GRangesList</code> objects. For instance, the <code>lengths()</code> function can be used on <code>GRangesList</code> to display the length of each <code>GRanges</code> object in the list as an integer vector.</p>
 <p>In the latest example above, we can compute the number of exons in each transcript as the length of each <code>GRanges</code> object within the <code>GRangesList</code>:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lengths</span>(actb_exons_by_transcript)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb62"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lengths</span>(actb_exons_by_transcript)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>ENST00000414620 ENST00000417101 ENST00000425660 ENST00000432588 ENST00000443528 
               4               3               7               5               3 
@@ -847,7 +820,7 @@ Show me the solutions
 <div id="callout-5" class="callout-5-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(actb_exons_by_transcript)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb64"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb64-1"><a href="#cb64-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(actb_exons_by_transcript)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 23</code></pre>
 </div>
@@ -859,18 +832,18 @@ Show me the solutions
 </div>
 </section>
 </section>
-<section id="subset-by-overlap" class="level3" data-number="4.3.8">
-<h3 data-number="4.3.8" class="anchored" data-anchor-id="subset-by-overlap"><span class="header-section-number">4.3.8</span> Subset by overlap</h3>
+<section id="subset-by-overlap" class="level3" data-number="4.3.7">
+<h3 data-number="4.3.7" class="anchored" data-anchor-id="subset-by-overlap"><span class="header-section-number">4.3.7</span> Subset by overlap</h3>
 <p>Possibly one of the most common operations when working with genomic ranges is to subset arbitrarily large collections of genomic ranges to those located in a specific region of the genome; for instance, when visualising information as tracks in a genome browser.</p>
 <p>To demonstrate, we manually define a new <code>GRanges</code> representing a region of interest that we will use to extract all of the genomic ranges imported earlier from the GTF file which overlap that region of interest.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a>region_of_interest <span class="ot">&lt;-</span> <span class="fu">GRanges</span>(</span>
-<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">seqnames =</span> <span class="st">"7"</span>,</span>
-<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ranges =</span> <span class="fu">IRanges</span>(<span class="at">start =</span> <span class="dv">5525830</span>, <span class="at">end =</span> <span class="dv">5531239</span>)</span>
-<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>actb_in_region <span class="ot">&lt;-</span> <span class="fu">subsetByOverlaps</span>(<span class="at">x =</span> actb_gtf_data, <span class="at">ranges =</span> region_of_interest)</span>
-<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>actb_in_region</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb66"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" aria-hidden="true" tabindex="-1"></a>region_of_interest <span class="ot">&lt;-</span> <span class="fu">GRanges</span>(</span>
+<span id="cb66-2"><a href="#cb66-2" aria-hidden="true" tabindex="-1"></a>    <span class="at">seqnames =</span> <span class="st">"7"</span>,</span>
+<span id="cb66-3"><a href="#cb66-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ranges =</span> <span class="fu">IRanges</span>(<span class="at">start =</span> <span class="dv">5525830</span>, <span class="at">end =</span> <span class="dv">5531239</span>)</span>
+<span id="cb66-4"><a href="#cb66-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb66-5"><a href="#cb66-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb66-6"><a href="#cb66-6" aria-hidden="true" tabindex="-1"></a>actb_in_region <span class="ot">&lt;-</span> <span class="fu">subsetByOverlaps</span>(<span class="at">x =</span> actb_gtf_data, <span class="at">ranges =</span> region_of_interest)</span>
+<span id="cb66-7"><a href="#cb66-7" aria-hidden="true" tabindex="-1"></a>actb_in_region</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>GRanges object with 256 ranges and 7 metadata columns:
         seqnames          ranges strand |      source           type     score
@@ -905,7 +878,7 @@ Show me the solutions
 </div>
 <p>Like the <code>subset()</code> method, the <code>subsetByOverlaps()</code> method returns a new <code>GRanges</code> object. We can visually compare the information printed in the object (256 ranges in the new subsetted object, relative to 267 ranges in the original object), or we can programmatically compare the length of the two objects to check whether the new <code>GRanges</code> object is any smaller than the original <code>GRanges</code> object:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(actb_in_region) <span class="sc">-</span> <span class="fu">length</span>(actb_gtf_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb68"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(actb_in_region) <span class="sc">-</span> <span class="fu">length</span>(actb_gtf_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -11</code></pre>
 </div>
@@ -936,12 +909,12 @@ Show me the solutions
 <li><strong>An expression matrix</strong>: we load the count matrix, specifying that the first columns contains row/gene names, and convert the <code>data.frame</code> to a <code>matrix</code>.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read count matrix</span></span>
-<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>count_matrix <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"count_matrix.csv"</span>), <span class="at">row.names =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
-<span id="cb72-3"><a href="#cb72-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.matrix</span>()</span>
-<span id="cb72-4"><a href="#cb72-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb72-5"><a href="#cb72-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect data</span></span>
-<span id="cb72-6"><a href="#cb72-6" aria-hidden="true" tabindex="-1"></a>count_matrix[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb70"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read count matrix</span></span>
+<span id="cb70-2"><a href="#cb70-2" aria-hidden="true" tabindex="-1"></a>count_matrix <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"count_matrix.csv"</span>), <span class="at">row.names =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb70-3"><a href="#cb70-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">as.matrix</span>()</span>
+<span id="cb70-4"><a href="#cb70-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb70-5"><a href="#cb70-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect data</span></span>
+<span id="cb70-6"><a href="#cb70-6" aria-hidden="true" tabindex="-1"></a>count_matrix[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, ]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        GSM2545336 GSM2545337 GSM2545338 GSM2545339 GSM2545340 GSM2545341
 Asl           1170        361        400        586        626        988
@@ -968,7 +941,7 @@ Cyp2d22       1821       2842       2011       4019
 Klk6           894        501        598        259
 Fcrls          248        179        184         68</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(count_matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb72"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(count_matrix)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1474   22</code></pre>
 </div>
@@ -977,11 +950,11 @@ Fcrls          248        179        184         68</code></pre>
 <li><strong>A table describing the samples</strong>, often referred to as sample metadata.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read sample metadata</span></span>
-<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a>sample_metadata <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"sample_metadata.csv"</span>))</span>
-<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect data</span></span>
-<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>sample_metadata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb74"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read sample metadata</span></span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>sample_metadata <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"sample_metadata.csv"</span>))</span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect data</span></span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a>sample_metadata</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>       sample     organism age    sex   infection  strain time     tissue mouse
 1  GSM2545336 Mus musculus   8 Female  InfluenzaA C57BL/6    8 Cerebellum    14
@@ -1007,7 +980,7 @@ Fcrls          248        179        184         68</code></pre>
 21 GSM2545363 Mus musculus   8   Male  InfluenzaA C57BL/6    4 Cerebellum    12
 22 GSM2545380 Mus musculus   8 Female  InfluenzaA C57BL/6    8 Cerebellum    19</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(sample_metadata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb76"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(sample_metadata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 22  9</code></pre>
 </div>
@@ -1016,11 +989,11 @@ Fcrls          248        179        184         68</code></pre>
 <li><strong>A table describing the genes</strong>, often referred to as gene metadata.</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read gene metadata</span></span>
-<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a>gene_metadata <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"gene_metadata.csv"</span>))</span>
-<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-4"><a href="#cb80-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect data</span></span>
-<span id="cb80-5"><a href="#cb80-5" aria-hidden="true" tabindex="-1"></a>gene_metadata[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb78"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read gene metadata</span></span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>gene_metadata <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"gene_metadata.csv"</span>))</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Inspect data</span></span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>gene_metadata[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      gene ENTREZID
 1      Asl   109900
@@ -1056,7 +1029,7 @@ Fcrls          248        179        184         68</code></pre>
 9  ENSMUSG00000031425
 10 ENSMUSG00000027669</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(gene_metadata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb80"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(gene_metadata)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1474    9</code></pre>
 </div>
@@ -1069,14 +1042,14 @@ Fcrls          248        179        184         68</code></pre>
 </ul>
 <p>To do this we can put the different parts together using the <code>SummarizedExperiment</code> constructor:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create SummarizedExperiment object</span></span>
-<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="fu">SummarizedExperiment</span>(</span>
-<span id="cb84-3"><a href="#cb84-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">assays =</span> <span class="fu">list</span>(<span class="at">counts =</span> count_matrix),</span>
-<span id="cb84-4"><a href="#cb84-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">colData =</span> sample_metadata,</span>
-<span id="cb84-5"><a href="#cb84-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">rowData =</span> gene_metadata</span>
-<span id="cb84-6"><a href="#cb84-6" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb84-7"><a href="#cb84-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb84-8"><a href="#cb84-8" aria-hidden="true" tabindex="-1"></a>se</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb82"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb82-1"><a href="#cb82-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create SummarizedExperiment object</span></span>
+<span id="cb82-2"><a href="#cb82-2" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="fu">SummarizedExperiment</span>(</span>
+<span id="cb82-3"><a href="#cb82-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">assays =</span> <span class="fu">list</span>(<span class="at">counts =</span> count_matrix),</span>
+<span id="cb82-4"><a href="#cb82-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">colData =</span> sample_metadata,</span>
+<span id="cb82-5"><a href="#cb82-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">rowData =</span> gene_metadata</span>
+<span id="cb82-6"><a href="#cb82-6" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb82-7"><a href="#cb82-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb82-8"><a href="#cb82-8" aria-hidden="true" tabindex="-1"></a>se</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>class: SummarizedExperiment 
 dim: 1474 22 
@@ -1091,7 +1064,7 @@ colData names(9): sample organism ... tissue mouse</code></pre>
 </div>
 <p>Using this data structure, we can access the expression matrix with the <code>assay()</code> function:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">assay</span>(se))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb84"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">assay</span>(se))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        GSM2545336 GSM2545337 GSM2545338 GSM2545339 GSM2545340 GSM2545341
 Asl           1170        361        400        586        626        988
@@ -1122,14 +1095,14 @@ Klk6           894        501        598        259
 Fcrls          248        179        184         68
 Slc2a4         248        350        317        796</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(<span class="fu">assay</span>(se))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb86"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(<span class="fu">assay</span>(se))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1474   22</code></pre>
 </div>
 </div>
 <p>We can access the sample metadata using the <code>colData()</code> function:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colData</span>(se)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb88"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colData</span>(se)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>DataFrame with 22 rows and 9 columns
                 sample     organism       age         sex   infection
@@ -1159,14 +1132,14 @@ GSM2545362     C57BL/6         4  Cerebellum        20
 GSM2545363     C57BL/6         4  Cerebellum        12
 GSM2545380     C57BL/6         8  Cerebellum        19</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(<span class="fu">colData</span>(se))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb90"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(<span class="fu">colData</span>(se))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 22  9</code></pre>
 </div>
 </div>
 <p>We can also access the feature metadata using the <code>rowData()</code> function:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">rowData</span>(se))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb92"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(<span class="fu">rowData</span>(se))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>DataFrame with 6 rows and 9 columns
                gene  ENTREZID                product    ensembl_gene_id
@@ -1194,7 +1167,7 @@ Klk6                                     KLK6
 Fcrls                                   FCRL2
 Slc2a4                                 SLC2A4</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(<span class="fu">rowData</span>(se))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb94"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(<span class="fu">rowData</span>(se))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 1474    9</code></pre>
 </div>
@@ -1205,8 +1178,8 @@ Slc2a4                                 SLC2A4</code></pre>
 <p><code>SummarizedExperiment</code> objects can be subset just like with data frames, with numerics or with characters of logicals.</p>
 <p>Below, we create a new instance of class SummarizedExperiment that contains only the 5 first features for the 3 first samples.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>se1 <span class="ot">&lt;-</span> se[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
-<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a>se1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb96"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>se1 <span class="ot">&lt;-</span> se[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>]</span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>se1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>class: SummarizedExperiment 
 dim: 5 3 
@@ -1220,7 +1193,7 @@ colData names(9): sample organism ... tissue mouse</code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colData</span>(se1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb98"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colData</span>(se1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>DataFrame with 3 rows and 9 columns
                 sample     organism       age         sex   infection
@@ -1234,7 +1207,7 @@ GSM2545336     C57BL/6         8  Cerebellum        14
 GSM2545337     C57BL/6         0  Cerebellum         9
 GSM2545338     C57BL/6         0  Cerebellum        10</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rowData</span>(se1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb100"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb100-1"><a href="#cb100-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rowData</span>(se1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>DataFrame with 5 rows and 9 columns
                gene  ENTREZID                product    ensembl_gene_id
@@ -1262,10 +1235,10 @@ Fcrls                                   FCRL2</code></pre>
 </div>
 <p>We can also use the <code>colData()</code> function to subset on something from the sample metadata or the <code>rowData()</code> to subset on something from the feature metadata. For example, here we keep only miRNAs and the non infected samples:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset object</span></span>
-<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>se1 <span class="ot">&lt;-</span> se[<span class="fu">rowData</span>(se)<span class="sc">$</span>gene_biotype <span class="sc">==</span> <span class="st">"miRNA"</span>,</span>
-<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a>          <span class="fu">colData</span>(se)<span class="sc">$</span>infection <span class="sc">==</span> <span class="st">"NonInfected"</span>]</span>
-<span id="cb104-4"><a href="#cb104-4" aria-hidden="true" tabindex="-1"></a>se1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb102"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset object</span></span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>se1 <span class="ot">&lt;-</span> se[<span class="fu">rowData</span>(se)<span class="sc">$</span>gene_biotype <span class="sc">==</span> <span class="st">"miRNA"</span>,</span>
+<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a>          <span class="fu">colData</span>(se)<span class="sc">$</span>infection <span class="sc">==</span> <span class="st">"NonInfected"</span>]</span>
+<span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a>se1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>class: SummarizedExperiment 
 dim: 7 7 
@@ -1277,7 +1250,7 @@ rowData names(9): gene ENTREZID ... phenotype_description
 colnames(7): GSM2545337 GSM2545338 ... GSM2545353 GSM2545354
 colData names(9): sample organism ... tissue mouse</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">assay</span>(se1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb104"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="fu">assay</span>(se1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>         GSM2545337 GSM2545338 GSM2545343 GSM2545348 GSM2545349 GSM2545353
 Mir1901          45         44         74         55         68         33
@@ -1296,7 +1269,7 @@ Mir149            2
 Mir128-1          1
 Mir7682           5</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colData</span>(se1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb106"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colData</span>(se1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>DataFrame with 7 rows and 9 columns
                 sample     organism       age         sex   infection
@@ -1318,7 +1291,7 @@ GSM2545349     C57BL/6         0  Cerebellum         7
 GSM2545353     C57BL/6         0  Cerebellum         4
 GSM2545354     C57BL/6         0  Cerebellum         2</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rowData</span>(se1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb108"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rowData</span>(se1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>DataFrame with 7 rows and 9 columns
                 gene  ENTREZID        product    ensembl_gene_id
@@ -1376,7 +1349,7 @@ Show me the solutions
 <div id="callout-7" class="callout-7-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="fu">assay</span>(se)[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="fu">colData</span>(se)<span class="sc">$</span>time <span class="sc">!=</span> <span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb110"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="fu">assay</span>(se)[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="fu">colData</span>(se)<span class="sc">$</span>time <span class="sc">!=</span> <span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        GSM2545336 GSM2545337 GSM2545338 GSM2545341 GSM2545342 GSM2545343
 Asl           1170        361        400        988        836        535
@@ -1391,8 +1364,8 @@ Asl            473       1192
 Apod         11088      38148
 Cyp2d22       1821       4019</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Equivalent to</span></span>
-<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a><span class="fu">assay</span>(se)[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="fu">colData</span>(se)<span class="sc">$</span>time <span class="sc">==</span> <span class="dv">0</span> <span class="sc">|</span> <span class="fu">colData</span>(se)<span class="sc">$</span>time <span class="sc">==</span> <span class="dv">8</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb112"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Equivalent to</span></span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a><span class="fu">assay</span>(se)[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>, <span class="fu">colData</span>(se)<span class="sc">$</span>time <span class="sc">==</span> <span class="dv">0</span> <span class="sc">|</span> <span class="fu">colData</span>(se)<span class="sc">$</span>time <span class="sc">==</span> <span class="dv">8</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>        GSM2545336 GSM2545337 GSM2545338 GSM2545341 GSM2545342 GSM2545343
 Asl           1170        361        400        988        836        535
@@ -1419,12 +1392,12 @@ Cyp2d22       1821       4019</code></pre>
 <p>Exporting data to a spreadsheet, as we did in a previous lesson, has several limitations, such as those described in the first chapter (possible inconsistencies with <code>,</code> and <code>.</code> for decimal separators and lack of variable type definitions). Furthermore, exporting data to a spreadsheet is only relevant for rectangular data such as dataframes and matrices.</p>
 <p>A more general way to save data, that is specific to R and is guaranteed to work on any operating system, is to use the <code>saveRDS()</code> function. Saving objects like this will generate a binary representation on disk (using the <code>rds</code> file extension here), which can be loaded back into R using the <code>readRDS</code> function.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb116"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save R object as an RDS file</span></span>
-<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(se, <span class="at">file =</span> <span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"se.rds"</span>))</span>
-<span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(se)</span>
-<span id="cb116-4"><a href="#cb116-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb116-5"><a href="#cb116-5" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"se.rds"</span>))</span>
-<span id="cb116-6"><a href="#cb116-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(se)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb114"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save R object as an RDS file</span></span>
+<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a><span class="fu">saveRDS</span>(se, <span class="at">file =</span> <span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"se.rds"</span>))</span>
+<span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(se)</span>
+<span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb114-5"><a href="#cb114-5" aria-hidden="true" tabindex="-1"></a>se <span class="ot">&lt;-</span> <span class="fu">readRDS</span>(<span class="fu">here</span>(<span class="st">"output"</span>, <span class="st">"se.rds"</span>))</span>
+<span id="cb114-6"><a href="#cb114-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(se)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>class: SummarizedExperiment 
 dim: 6 22 

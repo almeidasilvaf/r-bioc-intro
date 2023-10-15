@@ -214,7 +214,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p>The <strong><code>tidyverse</code></strong> package is an “umbrella-package” that installs several useful packages for data analysis which work well together, such as <strong><code>tidyr</code></strong>, <strong><code>dplyr</code></strong>, <strong><code>ggplot2</code></strong>, <strong><code>tibble</code></strong>, etc. These packages help us to work and interact with the data. They allow us to do many things with your data, such as subsetting, transforming, visualising, etc.</p>
+<p>The <strong><code>tidyverse</code></strong> package is an “umbrella-package” that installs several useful packages for data analysis which work well together, such as <strong><code>tidyr</code></strong>, <strong><code>dplyr</code></strong>, <strong><code>ggplot2</code></strong>, <strong><code>tibble</code></strong>, etc. These packages help us to work and interact with the data. They allow us to do many things with your data, such as subsetting, transforming, visualizing, etc.</p>
 <p>Let’s start by loading the tidyverse package:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -234,7 +234,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="the-readr-package-reading-files" class="level2" data-number="2.2">
 <h2 data-number="2.2" class="anchored" data-anchor-id="the-readr-package-reading-files"><span class="header-section-number">2.2</span> The <strong><code>readr</code></strong> package: reading files</h2>
-<p>The data we will use in this lesson are in <code>data/rnaseq.csv</code> in <a href="https://github.com/almeidasilvaf/r-bioc-intro">the GitHub repo associated with this course</a>. This is a <em>comma-separated file</em>, which means it contains a table in which columns are separated by commas. To read .csv files, we will use the function <code>read_csv()</code> from the <strong><code>readr</code></strong> package.</p>
+<p>The data we will use in this lesson are stored in <code>data/rnaseq.csv</code>. This is a <em>comma-separated file</em>, which means it contains a table in which columns are separated by commas. To read .csv files, we will use the function <code>read_csv()</code> from the <strong><code>readr</code></strong> package.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read csv file</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>rna <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"rnaseq.csv"</span>))</span>
@@ -257,7 +257,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 #   hsapiens_homolog_associated_gene_name &lt;chr&gt;</code></pre>
 </div>
 </div>
-<p>Notice that the class of the data is now referred to as a “tibble”.</p>
+<p>Notice that the class of the data is now referred to as a <code>tibble</code>.</p>
 <p>Tibbles tweak some of the behaviors of the data frame objects we introduced in the previously. The data structure is very similar to a data frame. For our purposes the only differences are that:</p>
 <ol type="1">
 <li><p>It displays the data type of each column under its name. Note that &lt;<code>dbl</code>&gt; is a data type defined to hold numeric values with decimal points.</p></li>
@@ -365,7 +365,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 #   hsapiens_homolog_associated_gene_name &lt;chr&gt;</code></pre>
 </div>
 </div>
-<p>Now, let’s imagine we are interested in the human homologs of the mouse genes analysed in this dataset. This information can be found in the last column of the <code>rna</code> tibble, named <code>hsapiens_homolog_associated_gene_name</code>. To visualise it easily, we will create a new table containing just the 2 columns <code>gene</code> and <code>hsapiens_homolog_associated_gene_name</code>.</p>
+<p>Now, let’s imagine we are interested in the human homologs of the mouse genes analyzed in this dataset. This information can be found in the last column of the <code>rna</code> tibble, named <code>hsapiens_homolog_associated_gene_name</code>. To visualise it easily, we will create a new table containing just the 2 columns <code>gene</code> and <code>hsapiens_homolog_associated_gene_name</code>.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>genes <span class="ot">&lt;-</span> <span class="fu">select</span>(rna, gene, hsapiens_homolog_associated_gene_name)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>genes</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -395,15 +395,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-8" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-8" data-code-lines="1">Take the object <code>rna</code>, <em>and then</em></span>
+<span data-code-lines="1" data-code-cell="annotated-cell-8" data-code-annotation="1">Take the object <code>rna</code>, <em>and then</em></span>
 </dd>
 <dt data-target-cell="annotated-cell-8" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-8" data-code-lines="2">filter it to keep only rows that have “Male” in the column <code>sex</code>, <em>and then</em></span>
+<span data-code-lines="2" data-code-cell="annotated-cell-8" data-code-annotation="2">filter it to keep only rows that have “Male” in the column <code>sex</code>, <em>and then</em></span>
 </dd>
 <dt data-target-cell="annotated-cell-8" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-annotation="3" data-code-cell="annotated-cell-8" data-code-lines="3">select the columns <code>gene</code>, <code>sample</code>, <code>tissue</code>, <code>expression</code></span>
+<span data-code-lines="3" data-code-cell="annotated-cell-8" data-code-annotation="3">select the columns <code>gene</code>, <code>sample</code>, <code>tissue</code>, <code>expression</code></span>
 </dd>
 </dl>
 </div>
@@ -1111,15 +1111,15 @@ Show me the solutions
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-23" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-23" data-code-lines="2">Select columns <code>gene</code>, <code>sample</code>, and <code>expression</code></span>
+<span data-code-lines="2" data-code-cell="annotated-cell-23" data-code-annotation="1">Select columns <code>gene</code>, <code>sample</code>, and <code>expression</code></span>
 </dd>
 <dt data-target-cell="annotated-cell-23" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-23" data-code-lines="4">Columns names of the wide table will be the values of the <code>sample</code> column</span>
+<span data-code-lines="4" data-code-cell="annotated-cell-23" data-code-annotation="2">Columns names of the wide table will be the values of the <code>sample</code> column</span>
 </dd>
 <dt data-target-cell="annotated-cell-23" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-annotation="3" data-code-cell="annotated-cell-23" data-code-lines="5">Values in the wide table will be the values of the <code>expression</code> column</span>
+<span data-code-lines="5" data-code-cell="annotated-cell-23" data-code-annotation="3">Values in the wide table will be the values of the <code>expression</code> column</span>
 </dd>
 </dl>
 </div>
@@ -1159,15 +1159,15 @@ Show me the solutions
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-24" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-annotation="1" data-code-cell="annotated-cell-24" data-code-lines="3">Use all columns except <code>gene</code>.</span>
+<span data-code-lines="3" data-code-cell="annotated-cell-24" data-code-annotation="1">Use all columns except <code>gene</code>.</span>
 </dd>
 <dt data-target-cell="annotated-cell-24" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-annotation="2" data-code-cell="annotated-cell-24" data-code-lines="4">Column names of the wide table will become a variable named <em>sample</em></span>
+<span data-code-lines="4" data-code-cell="annotated-cell-24" data-code-annotation="2">Column names of the wide table will become a variable named <em>sample</em></span>
 </dd>
 <dt data-target-cell="annotated-cell-24" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-annotation="3" data-code-cell="annotated-cell-24" data-code-lines="5">Values in the wide table will become a variable named <em>expression</em></span>
+<span data-code-lines="5" data-code-cell="annotated-cell-24" data-code-annotation="3">Values in the wide table will become a variable named <em>expression</em></span>
 </dd>
 </dl>
 </div>

@@ -211,7 +211,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<p><code>ggplot2</code> is a plotting package that makes it simple to create complex plots from data in a data frame. It provides a more programmatic interface for specifying what variables to plot, how they are displayed, and general visual properties. The theoretical foundation that supports the <code>ggplot2</code> is the <em>Grammar of Graphics</em>. Using this approach, we only need minimal changes if the underlying data change or if we decide to change from a bar plot to a scatterplot. This helps in creating publication quality plots with minimal amounts of adjustments and tweaking.</p>
+<p><strong><code>ggplot2</code></strong> is a plotting package that makes it simple to create complex plots from data in a data frame. It provides a more programmatic interface for specifying what variables to plot, how they are displayed, and general visual properties. The theoretical foundation that supports the <strong><code>ggplot2</code></strong> is the <em>Grammar of Graphics</em>. Using this approach, we only need minimal changes if the underlying data change or if we decide to change from a bar plot to a scatterplot. This helps in creating publication quality plots with minimal amounts of adjustments and tweaking.</p>
 <p>Let’s start by loading the required packages and data:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load packages</span></span>
@@ -232,7 +232,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="plotting-with-ggplot2" class="level2" data-number="3.2">
 <h2 data-number="3.2" class="anchored" data-anchor-id="plotting-with-ggplot2"><span class="header-section-number">3.2</span> Plotting with ggplot2</h2>
-<p><code>ggplot2</code> functions like data in the ‘long’ format, i.e., a column for every dimension, and a row for every observation. Well-structured data will save you lots of time when making figures with <code>ggplot2</code>.</p>
+<p><strong><code>ggplot2</code></strong> functions like data in the ‘long’ format, i.e., a column for every dimension, and a row for every observation. Well-structured data will save you lots of time when making figures with <strong><code>ggplot2</code></strong>.</p>
 <p>ggplot graphics are built step by step by adding new elements. Adding layers in this fashion allows for extensive flexibility and customization of plots. As stated in RStudio’s Data Visualization Cheat Sheet:</p>
 <blockquote class="blockquote">
 <p>The idea behind the Grammar of Graphics it is that you can build every graph from the same 3 components: (1) a data set, (2) a coordinate system, and (3) geoms — i.e.&nbsp;visual marks that represent data points.</p>
@@ -253,15 +253,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-lines="2" data-code-cell="annotated-cell-3" data-code-annotation="1">Use the <code>ggplot()</code> function and bind the plot to a specific <strong>data frame</strong> using the <code>data</code> argument.</span>
+<span data-code-cell="annotated-cell-3" data-code-annotation="1" data-code-lines="2">Use the <code>ggplot()</code> function and bind the plot to a specific <strong>data frame</strong> using the <code>data</code> argument.</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-lines="3" data-code-cell="annotated-cell-3" data-code-annotation="2">Define a <strong>mapping</strong> (using the aesthetic (<code>aes</code>) function), by selecting the variables to be plotted and specifying how to present them in the graph, e.g.&nbsp;as x/y positions or characteristics such as size, shape, color, etc.</span>
+<span data-code-cell="annotated-cell-3" data-code-annotation="2" data-code-lines="3">Define a <strong>mapping</strong> (using the aesthetic (<code>aes</code>) function), by selecting the variables to be plotted and specifying how to present them in the graph, e.g.&nbsp;as x/y positions or characteristics such as size, shape, color, etc.</span>
 </dd>
 <dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-lines="5" data-code-cell="annotated-cell-3" data-code-annotation="3">Add ‘<strong>geoms</strong>’ - geometries, or graphical representations of the data in the plot (points, lines, bars). <code>ggplot2</code> offers many different geoms.</span>
+<span data-code-cell="annotated-cell-3" data-code-annotation="3" data-code-lines="5">Add ‘<strong>geoms</strong>’ - geometries, or graphical representations of the data in the plot (points, lines, bars). <code>ggplot2</code> offers many different geoms.</span>
 </dd>
 </dl>
 </div>
