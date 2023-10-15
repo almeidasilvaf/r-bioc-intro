@@ -1,0 +1,15 @@
+
+# Preface {.unnumbered}
+
+This book contains the materials for the course
+*Introduction to R/Bioconductor*, which I offer
+in partnership with [Physalia courses](https://www.physalia-courses.org/).
+This is a 5-day course, and each chapter of this book contains the materials
+for one day. In details:
+
+1. Getting started with R data classes
+2. Data analysis with the tidyverse
+3. Visualizing data with {ggplot2}
+4. Introduction to Bioconductor data classes - part 1
+5. Introduction to Bioconductor data classes - part 2
+

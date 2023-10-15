@@ -1,0 +1,29 @@
+project:
+  type: book
+
+book:
+  title: |
+    Introduction to R/Bioconductor
+  author: 
+    - name: Fabricio Almeida-Silva
+      orcid: 0000-0002-5314-2964
+  date: "2023"
+  chapters:
+    - index.qmd
+    - chapters/00_setup.qmd
+    - chapters/01_intro_to_R.qmd
+    - chapters/02_tidyverse.qmd
+    - chapters/03_visualization.qmd
+    - chapters/04_bioc.qmd
+
+bibliography: chapters/bibliography.bib
+
+execute:
+  freeze: auto
+
+format:
+  html:
+    theme: cosmo
+
+editor: 
+  mode: source
